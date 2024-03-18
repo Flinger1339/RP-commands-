@@ -1,0 +1,2395 @@
+import telebot
+
+TOKEN = "6683776786:AAESPFwR8FXEEbotThJWWtpgwfIxLMMZkIE"
+bot = telebot.TeleBot(TOKEN)
+
+import random
+import time
+
+
+@bot.message_handler(commands=['start'])
+def start_message(message):
+    instructions = "/drink_wine - Выпить вино 🍷\n" \
+                   "/drink_milk - Выпить молоко 🥛\n" \
+                   "/eat_fish - Съесть рыбку 🐟\n" \
+                   "/bag - Открыть мешок 🛍\n" \
+                   "/reaction_bot - Показать доступные реакции бота"
+
+    bot.reply_to(message, instructions)
+
+
+@bot.message_handler(func=lambda message: re.search(r'\bРПбот\b', message.text, re.IGNORECASE))
+
+@bot.message_handler(commands=['reaction_bot'])
+@bot.message_handler(commands=['РПбот'])
+def show_reactions(message):
+    reactions_list = ["1) покормить\n 2) превратить в (лемура,козла,жабу,крысу)\n 3)кинуть (торт,топор)"
+                      "\n 4) повесить\n 5) взять на руки\n 6) ударить\n 7) дать шалбан\n 8) испугать\n 9) бу"
+                      "\n 10) утопить в унитазе\n 11) прогуляться под луной\n 12) поцеловать в лобик"
+                      "\n 13) пригласить на чай\n 14) дать конфетку(кетю)\n 15) швырнуть\n 16) сушить"
+                      "\n 17) купать\n 18) расстрепать\n 19) уложить спать\n 20) послать своей дорогой"
+                      "\n 21) погладить по головке\n 22) взяться за руки\n 23) отмудохать  "
+                      "\n 24) трахнуть\n 25) ущипнуть\n 26) поцеловать\n 27) цем\n 28) поздравить"
+                      "\n 29) кастрировать\n 30) казнить\n 31) казнить\n 32) дать пять\n 33) пожать руку "
+                      "\n 34) забрать интернет\n 35) сжечь\n 36) развеселить\n 37) подружиться\n 38)помочь"
+                      "\n 39) простить\n 40) обидеться\n 41) умолять\n 42) пиздануть\n 43) укусить\n 44) ебнуть"
+                      "\n 45) лизнуть\n 46) уебать\n 47) выебать\n 48) вьебать\n 49) усыпить\n 50) отравить\n 51) довести до слёз"
+                      "\n 52) окунуть в лужу"]
+
+
+    reaction_text = "чтобы вызвать команду которая имеет одно слово, нужно писать вот так (пример) испугать * . \n Доступные реакции бота:\n"
+    for reaction in reactions_list:
+        reaction_text += f" {reaction}\n"
+
+    bot.reply_to(message, reaction_text)
+
+
+
+@bot.message_handler(func=lambda message: re.search(r'^окунуть в лужу\b', message.text.lower()))
+def drown_in_toilet(message):
+    if re.search(r'^окунуть в лужу\b', message.text.lower()):  # Проверка наличия команды "утопить в унитазе" в начале предложения
+        if len(message.text.split()) == 4 and message.text.split()[2].startswith("@"):  # Проверка формата "утопить в унитазе @user"
+            sender_username = message.from_user.username
+            target_username = message.text.split()[3][1:]  # Извлечение имени пользователя без @
+            bot.reply_to(message, f'🚰| @{sender_username} окунула @{target_username} в лужу')
+            return
+
+    if message.text.lower().startswith("окунуть в лужу") or message.text.lower().endswith("окунуть в лужу"):  # Проверка наличия команды "утопить в унитазе" в начале или в конце
+        if message.reply_to_message and message.reply_to_message.from_user.username:  # Проверка наличия ответа на сообщение
+            target_username = message.reply_to_message.from_user.username
+            if len(message.text.split()) > 1:
+                if "\n" in message.text:
+                    text = message.text.split("\n", 1)[1]
+                    bot.reply_to(message, f'🚰| @{message.from_user.username} окунула @{target_username} в лужу \n💬| С репликой: «{text}»')
+                else:
+                    bot.reply_to(message, f'🚰| @{message.from_user.username} окунула @{target_username} в лужу')
+            return
+
+        if len(message.text.split()) > 3:
+            target_username = message.text.split()[3]
+            if target_username.startswith("@"):
+                target_username = target_username[1:]
+                if target_username != message.from_user.username:
+                    text_index = 3
+                    if "\n" in message.text:
+                        text = message.text.split("\n", 1)[1]
+                        bot.reply_to(message,
+                                     f'🚰| @{message.from_user.username} окунула @{target_username} в лужу \n💬| С репликой: «{text}»')
+                    else:
+                        bot.reply_to(message,
+                                     f'🚰| @{message.from_user.username} окунула @{target_username} в лужу')
+
+
+import re
+
+@bot.message_handler(func=lambda message: re.search(r'^прогуляться под луной\b', message.text.lower()))
+def drown_in_toilet(message):
+    if re.search(r'^прогуляться под луной\b', message.text.lower()):  # Проверка наличия команды "утопить в унитазе" в начале предложения
+        if len(message.text.split()) == 4 and message.text.split()[2].startswith("@"):  # Проверка формата "утопить в унитазе @user"
+            sender_username = message.from_user.username
+            target_username = message.text.split()[3][1:]  # Извлечение имени пользователя без @
+            bot.reply_to(message, f'🌕| @{sender_username} прогулял(а)сь под луной с @{target_username}')
+            return
+
+    if message.text.lower().startswith("прогуляться под луной") or message.text.lower().endswith("прогуляться под луной"):  # Проверка наличия команды "утопить в унитазе" в начале или в конце
+        if message.reply_to_message and message.reply_to_message.from_user.username:  # Проверка наличия ответа на сообщение
+            target_username = message.reply_to_message.from_user.username
+            if len(message.text.split()) > 1:
+                if "\n" in message.text:
+                    text = message.text.split("\n", 1)[1]
+                    bot.reply_to(message, f'🌕| @{message.from_user.username} прогулял(а)сь под луной с @{target_username} \n💬| С репликой: «{text}»')
+                else:
+                    bot.reply_to(message, f'🌕| @{message.from_user.username} прогулял(а)сь под луной с @{target_username}')
+            return
+
+        if len(message.text.split()) > 3:
+            target_username = message.text.split()[3]
+            if target_username.startswith("@"):
+                target_username = target_username[1:]
+                if target_username != message.from_user.username:
+                    text_index = 3
+                    if "\n" in message.text:
+                        text = message.text.split("\n", 1)[1]
+                        bot.reply_to(message,
+                                     f'🌕| @{message.from_user.username} прогулял(а)сь под луной с @{target_username} \n💬| С репликой: «{text}»')
+                    else:
+                        bot.reply_to(message,
+                                     f'🌕| @{message.from_user.username} прогулял(а)сь под луной с @{target_username}')
+
+
+
+
+
+
+
+
+
+
+
+
+#32
+
+
+import re
+
+@bot.message_handler(func=lambda message: re.search(r'^утопить в унитазе\b', message.text.lower()))
+def drown_in_toilet(message):
+    if re.search(r'^утопить в унитазе\b', message.text.lower()):  # Проверка наличия команды "утопить в унитазе" в начале предложения
+        if len(message.text.split()) == 4 and message.text.split()[2].startswith("@"):  # Проверка формата "утопить в унитазе @user"
+            sender_username = message.from_user.username
+            target_username = message.text.split()[3][1:]  # Извлечение имени пользователя без @
+            bot.reply_to(message, f'🚽| @{sender_username} утопил в унитазе @{target_username}')
+            return
+
+    if message.text.lower().startswith("утопить в унитазе") or message.text.lower().endswith("утопить в унитазе"):  # Проверка наличия команды "утопить в унитазе" в начале или в конце
+        if message.reply_to_message and message.reply_to_message.from_user.username:  # Проверка наличия ответа на сообщение
+            target_username = message.reply_to_message.from_user.username
+            if len(message.text.split()) > 1:
+                if "\n" in message.text:
+                    text = message.text.split("\n", 1)[1]
+                    bot.reply_to(message, f'🚽| @{message.from_user.username} утопил(а) в унитазе @{target_username}\n💬| С репликой: «{text}»')
+                else:
+                    bot.reply_to(message, f'🚽| @{message.from_user.username} утопил(а) в унитазе @{target_username}')
+            return
+
+        if len(message.text.split()) > 3:
+            target_username = message.text.split()[3]
+            if target_username.startswith("@"):
+                target_username = target_username[1:]
+                if target_username != message.from_user.username:
+                    text_index = 3
+                    if "\n" in message.text:
+                        text = message.text.split("\n", 1)[1]
+                        bot.reply_to(message,
+                                     f'🚽| @{message.from_user.username} утопил(а) в унитазе @{target_username}\n💬| С репликой: «{text}»')
+                    else:
+                        bot.reply_to(message,
+                                     f'🚽| @{message.from_user.username} утопил(а) в унитазе @{target_username}')
+
+
+
+
+
+@bot.message_handler(func=lambda message: re.search(r'^бу\b', message.text.lower()))
+def scare(message):
+    if re.search(r'^бу\b', message.text.lower()):  # Проверка наличия команды "испугать" в начале предложения
+        if len(message.text.split()) == 2 and message.text.split()[1].startswith("@"):  # Проверка формата "испугать @user"
+            sender_username = message.from_user.username
+            target_username = message.text.split()[1][1:]  # Извлечение имени пользователя без @
+            bot.reply_to(message, f'😱| @{sender_username} испугал(а) @{target_username}')
+            return
+
+    if message.text.lower().startswith("бу") or message.text.lower().endswith("бу"):  # Проверка наличия команды "испугать" в начале или в конце
+        if message.reply_to_message and message.reply_to_message.from_user.username:  # Проверка наличия ответа на сообщение
+            target_username = message.reply_to_message.from_user.username
+            if len(message.text.split()) > 1:
+                if "\n" in message.text:
+                    text = message.text.split("\n", 1)[1]
+                    bot.reply_to(message, f'😱| @{message.from_user.username} испугал(а) @{target_username} и он(а) с криками бежала \n💬| С репликой: «{text}»')
+                else:
+                    bot.reply_to(message, f'😱| @{message.from_user.username} испугал(а) @{target_username} и он(а) с криками бежала ')
+            return
+
+        if len(message.text.split()) > 1:
+            target_username = message.text.split()[1]
+            if target_username.startswith("@"):
+                target_username = target_username[1:]
+                if target_username != message.from_user.username:
+                    text_index = 2
+                    if "\n" in message.text:
+                        text = message.text.split("\n", 1)[1]
+                        bot.reply_to(message,
+                                     f'😱| @{message.from_user.username} испугал(а) @{target_username} и он(а) с криками бежала \n💬| С репликой: «{text}»')
+                    else:
+                        bot.reply_to(message,
+                                     f'😱| @{message.from_user.username} испугал(а) @{target_username} и он(а) с криками бежала ')
+
+
+
+
+
+
+
+
+@bot.message_handler(func=lambda message: re.search(r'^испугать\b', message.text.lower()))
+def scare(message):
+    if re.search(r'^испугать\b', message.text.lower()):  # Проверка наличия команды "испугать" в начале предложения
+        if len(message.text.split()) == 2 and message.text.split()[1].startswith("@"):  # Проверка формата "испугать @user"
+            sender_username = message.from_user.username
+            target_username = message.text.split()[1][1:]  # Извлечение имени пользователя без @
+            bot.reply_to(message, f'😱| @{sender_username} испугал(а) @{target_username}')
+            return
+
+    if message.text.lower().startswith("испугать") or message.text.lower().endswith("испугать"):  # Проверка наличия команды "испугать" в начале или в конце
+        if message.reply_to_message and message.reply_to_message.from_user.username:  # Проверка наличия ответа на сообщение
+            target_username = message.reply_to_message.from_user.username
+            if len(message.text.split()) > 1:
+                if "\n" in message.text:
+                    text = message.text.split("\n", 1)[1]
+                    bot.reply_to(message, f'😱| @{message.from_user.username} испугал(а) @{target_username}\n💬| С репликой: «{text}»')
+                else:
+                    bot.reply_to(message, f'😱| @{message.from_user.username} испугал(а) @{target_username}')
+            return
+
+        if len(message.text.split()) > 1:
+            target_username = message.text.split()[1]
+            if target_username.startswith("@"):
+                target_username = target_username[1:]
+                if target_username != message.from_user.username:
+                    text_index = 2
+                    if "\n" in message.text:
+                        text = message.text.split("\n", 1)[1]
+                        bot.reply_to(message,
+                                     f'😱| @{message.from_user.username} испугал(а) @{target_username}\n💬| С репликой: «{text}»')
+                    else:
+                        bot.reply_to(message,
+                                     f'😱| @{message.from_user.username} испугал(а) @{target_username}')
+
+
+
+
+import re
+
+@bot.message_handler(func=lambda message: re.search(r'^кинуть топор\b', message.text.lower()))
+def throw_axe(message):
+    if re.search(r'^кинуть топор\b', message.text.lower()):  # Проверка наличия команды "кинуть топор" в начале предложения
+        if len(message.text.split()) == 3 and message.text.split()[1].startswith("@"):  # Проверка формата "кинуть топор @user"
+            sender_username = message.from_user.username
+            target_username = message.text.split()[2][1:]  # Извлечение имени пользователя без @
+            bot.reply_to(message, f'🪓| @{sender_username} кинул(а) топор в @{target_username}')
+            return
+
+    if message.text.lower().startswith("кинуть топор") or message.text.lower().endswith("кинуть топор"):  # Проверка наличия команды "кинуть топор" в начале или в конце
+        if message.reply_to_message and message.reply_to_message.from_user.username:  # Проверка наличия ответа на сообщение
+            target_username = message.reply_to_message.from_user.username
+            if len(message.text.split()) > 1:
+                if "\n" in message.text:
+                    text = message.text.split("\n", 1)[1]
+                    bot.reply_to(message, f'🪓| @{message.from_user.username} кинул(а) топор в @{target_username}\n💬| С репликой: «{text}»')
+                else:
+                    bot.reply_to(message, f'🪓| @{message.from_user.username} кинул(а) топор в @{target_username}')
+            return
+
+        if len(message.text.split()) > 2:
+            target_username = message.text.split()[2]
+            if target_username.startswith("@"):
+                target_username = target_username[1:]
+                if target_username != message.from_user.username:
+                    text_index = 3
+                    if "\n" in message.text:
+                        text = message.text.split("\n", 1)[1]
+                        bot.reply_to(message,
+                                     f'🪓| @{message.from_user.username} кинул(а) топор в @{target_username}\n💬| С репликой: «{text}»')
+                    else:
+                        bot.reply_to(message,
+                                     f'🪓| @{message.from_user.username} кинул(а) топор в @{target_username}')
+
+
+
+
+
+import re
+
+@bot.message_handler(func=lambda message: re.search(r'^дать шалбан\b', message.text.lower()))
+def throw_axe(message):
+    if re.search(r'^дать шалбан\b', message.text.lower()):  # Проверка наличия команды "дать шалбан" в начале предложения
+        if len(message.text.split()) == 3 and message.text.split()[1].startswith("@"):  # Проверка формата "дать шалбан @user"
+            sender_username = message.from_user.username
+            target_username = message.text.split()[2][1:]  # Извлечение имени пользователя без @
+            bot.reply_to(message, f'🤦| @{sender_username} дал(а) шалбан @{target_username}')
+            return
+
+    if message.text.lower().startswith("дать шалбан") or message.text.lower().endswith("дать шалбан"):  # Проверка наличия команды "дать шалбан" в начале или в конце
+        if message.reply_to_message and message.reply_to_message.from_user.username:  # Проверка наличия ответа на сообщение
+            target_username = message.reply_to_message.from_user.username
+            if len(message.text.split()) > 1:
+                if "\n" in message.text:
+                    text = message.text.split("\n", 1)[1]
+                    bot.reply_to(message, f'🤦| @{message.from_user.username} дал(а) шалбан @{target_username}\n💬| С репликой: «{text}»')
+                else:
+                    bot.reply_to(message, f'🤦| @{message.from_user.username} дал(а) шалбан @{target_username}')
+            return
+
+        if len(message.text.split()) > 2:
+            target_username = message.text.split()[2]
+            if target_username.startswith("@"):
+                target_username = target_username[1:]
+                if target_username != message.from_user.username:
+                    text_index = 3
+                    if "\n" in message.text:
+                        text = message.text.split("\n", 1)[1]
+                        bot.reply_to(message,
+                                     f'🤦| @{message.from_user.username} дал(а) шалбан @{target_username}\n💬| С репликой: «{text}»')
+                    else:
+                        bot.reply_to(message,
+                                     f'🤦| @{message.from_user.username} дал(а) шалбан @{target_username}')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@bot.message_handler(func=lambda message: re.search(r'^ударить\b', message.text.lower()))
+def scare(message):
+    if re.search(r'^ударить\b', message.text.lower()):  # Проверка наличия команды "испугать" в начале предложения
+        if len(message.text.split()) == 2 and message.text.split()[1].startswith("@"):  # Проверка формата "испугать @user"
+            sender_username = message.from_user.username
+            target_username = message.text.split()[1][1:]  # Извлечение имени пользователя без @
+            bot.reply_to(message, f'🤜🤕| @{sender_username} ударил(а) @{target_username}')
+            return
+
+    if message.text.lower().startswith("ударить") or message.text.lower().endswith("ударить"):  # Проверка наличия команды "испугать" в начале или в конце
+        if message.reply_to_message and message.reply_to_message.from_user.username:  # Проверка наличия ответа на сообщение
+            target_username = message.reply_to_message.from_user.username
+            if len(message.text.split()) > 1:
+                if "\n" in message.text:
+                    text = message.text.split("\n", 1)[1]
+                    bot.reply_to(message, f'🤜🤕| @{message.from_user.username} ударил(а) @{target_username}\n💬| С репликой: «{text}»')
+                else:
+                    bot.reply_to(message, f'🤜🤕| @{message.from_user.username} ударил(а) @{target_username}')
+            return
+
+        if len(message.text.split()) > 1:
+            target_username = message.text.split()[1]
+            if target_username.startswith("@"):
+                target_username = target_username[1:]
+                if target_username != message.from_user.username:
+                    text_index = 2
+                    if "\n" in message.text:
+                        text = message.text.split("\n", 1)[1]
+                        bot.reply_to(message,
+                                     f'🤜🤕| @{message.from_user.username} ударил(а) @{target_username}\n💬| С репликой: «{text}»')
+                    else:
+                        bot.reply_to(message,
+                                     f'🤜🤕| @{message.from_user.username} ударил(а) @{target_username}')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@bot.message_handler(func=lambda message: re.search(r'^взять на руки\b', message.text.lower()))
+def drown_in_toilet(message):
+    if re.search(r'^взять на руки\b', message.text.lower()):  # Проверка наличия команды "взять на руки" в начале предложения
+        if len(message.text.split()) == 4 and message.text.split()[2].startswith("@"):  # Проверка формата "взять на руки @user"
+            sender_username = message.from_user.username
+            target_username = message.text.split()[3][1:]  # Извлечение имени пользователя без @
+            bot.reply_to(message, f'🤲| @{sender_username} взял(а) на руки @{target_username}')
+            return
+
+    if message.text.lower().startswith("взять на руки") or message.text.lower().endswith("взять на руки"):  # Проверка наличия команды "взять на руки" в начале или в конце
+        if message.reply_to_message and message.reply_to_message.from_user.username:  # Проверка наличия ответа на сообщение
+            target_username = message.reply_to_message.from_user.username
+            if len(message.text.split()) > 1:
+                if "\n" in message.text:
+                    text = message.text.split("\n", 1)[1]
+                    bot.reply_to(message, f'🤲| @{message.from_user.username} взял(а) на руки @{target_username}\n💬| С репликой: «{text}»')
+                else:
+                    bot.reply_to(message, f'🤲| @{message.from_user.username} взял(а) на руки @{target_username}')
+            return
+
+        if len(message.text.split()) > 3:
+            target_username = message.text.split()[3]
+            if target_username.startswith("@"):
+                target_username = target_username[1:]
+                if target_username != message.from_user.username:
+                    text_index = 3
+                    if "\n" in message.text:
+                        text = message.text.split("\n", 1)[1]
+                        bot.reply_to(message,
+                                     f'🤲| @{message.from_user.username} взял(а) на руки @{target_username}\n💬| С репликой: «{text}»')
+                    else:
+                        bot.reply_to(message,
+                                     f'🤲| @{message.from_user.username} взял(а) на руки @{target_username}')
+
+
+@bot.message_handler(func=lambda message: re.search(r'^превратить в жабу\b', message.text.lower()))
+def drown_in_toilet(message):
+    if re.search(r'^превратить в жабу\b', message.text.lower()):  # Проверка наличия команды "взять на руки" в начале предложения
+        if len(message.text.split()) == 4 and message.text.split()[2].startswith("@"):  # Проверка формата "взять на руки @user"
+            sender_username = message.from_user.username
+            target_username = message.text.split()[3][1:]  # Извлечение имени пользователя без @
+            bot.reply_to(message, f'🐸| @{sender_username} превратил(а) @{target_username} в жабу')
+            return
+
+    if message.text.lower().startswith("превратить в жабу") or message.text.lower().endswith("превратить в жабу"):  # Проверка наличия команды "взять на руки" в начале или в конце
+        if message.reply_to_message and message.reply_to_message.from_user.username:  # Проверка наличия ответа на сообщение
+            target_username = message.reply_to_message.from_user.username
+            if len(message.text.split()) > 1:
+                if "\n" in message.text:
+                    text = message.text.split("\n", 1)[1]
+                    bot.reply_to(message, f'🐸| @{message.from_user.username} превратил(а) @{target_username} в жабу \n💬| С репликой: «{text}»')
+                else:
+                    bot.reply_to(message, f'🐸| @{message.from_user.username} превратил(а) @{target_username} в жабу')
+            return
+
+        if len(message.text.split()) > 3:
+            target_username = message.text.split()[3]
+            if target_username.startswith("@"):
+                target_username = target_username[1:]
+                if target_username != message.from_user.username:
+                    text_index = 3
+                    if "\n" in message.text:
+                        text = message.text.split("\n", 1)[1]
+                        bot.reply_to(message,
+                                     f'🐸| @{message.from_user.username} превратил(а) @{target_username} в жабу\n💬| С репликой: «{text}»')
+                    else:
+                        bot.reply_to(message,
+                                     f'🐸| @{message.from_user.username} превратил(а) @{target_username} в жабу')
+
+
+
+
+
+
+@bot.message_handler(func=lambda message: re.search(r'^превратить в крысу\b', message.text.lower()))
+def drown_in_toilet(message):
+    if re.search(r'^превратить в крысу\b', message.text.lower()):  # Проверка наличия команды "взять на руки" в начале предложения
+        if len(message.text.split()) == 4 and message.text.split()[2].startswith("@"):  # Проверка формата "взять на руки @user"
+            sender_username = message.from_user.username
+            target_username = message.text.split()[3][1:]  # Извлечение имени пользователя без @
+            bot.reply_to(message, f'🐀| @{sender_username} превратил(а) @{target_username} в крысу')
+            return
+
+    if message.text.lower().startswith("превратить в крысу") or message.text.lower().endswith("превратить в крысу"):  # Проверка наличия команды "взять на руки" в начале или в конце
+        if message.reply_to_message and message.reply_to_message.from_user.username:  # Проверка наличия ответа на сообщение
+            target_username = message.reply_to_message.from_user.username
+            if len(message.text.split()) > 1:
+                if "\n" in message.text:
+                    text = message.text.split("\n", 1)[1]
+                    bot.reply_to(message, f'🐀| @{message.from_user.username} превратил(а) @{target_username} в крысу \n💬| С репликой: «{text}»')
+                else:
+                    bot.reply_to(message, f'🐀| @{message.from_user.username} превратил(а) @{target_username} в крысу')
+            return
+
+        if len(message.text.split()) > 3:
+            target_username = message.text.split()[3]
+            if target_username.startswith("@"):
+                target_username = target_username[1:]
+                if target_username != message.from_user.username:
+                    text_index = 3
+                    if "\n" in message.text:
+                        text = message.text.split("\n", 1)[1]
+                        bot.reply_to(message,
+                                     f'🐀| @{message.from_user.username} превратил(а) @{target_username} в крысу\n💬| С репликой: «{text}»')
+                    else:
+                        bot.reply_to(message,
+                                     f'🐀| @{message.from_user.username} превратил(а) @{target_username} в крысу')
+
+
+
+
+
+
+
+@bot.message_handler(func=lambda message: re.search(r'^превратить в козла\b', message.text.lower()))
+def drown_in_toilet(message):
+    if re.search(r'^превратить в козла\b', message.text.lower()):  # Проверка наличия команды "взять на руки" в начале предложения
+        if len(message.text.split()) == 4 and message.text.split()[2].startswith("@"):  # Проверка формата "взять на руки @user"
+            sender_username = message.from_user.username
+            target_username = message.text.split()[3][1:]  # Извлечение имени пользователя без @
+            bot.reply_to(message, f'🐐| @{sender_username} превратила @{target_username} в козла')
+            return
+
+    if message.text.lower().startswith("превратить в козла") or message.text.lower().endswith("превратить в козла"):  # Проверка наличия команды "взять на руки" в начале или в конце
+        if message.reply_to_message and message.reply_to_message.from_user.username:  # Проверка наличия ответа на сообщение
+            target_username = message.reply_to_message.from_user.username
+            if len(message.text.split()) > 1:
+                if "\n" in message.text:
+                    text = message.text.split("\n", 1)[1]
+                    bot.reply_to(message, f'🐐| @{message.from_user.username} превратила @{target_username} в козла \n💬| С репликой: «{text}»')
+                else:
+                    bot.reply_to(message, f'🐐| @{message.from_user.username} превратила @{target_username} в козла')
+            return
+
+        if len(message.text.split()) > 3:
+            target_username = message.text.split()[3]
+            if target_username.startswith("@"):
+                target_username = target_username[1:]
+                if target_username != message.from_user.username:
+                    text_index = 3
+                    if "\n" in message.text:
+                        text = message.text.split("\n", 1)[1]
+                        bot.reply_to(message,
+                                     f'🐐| @{message.from_user.username} превратила @{target_username} в козла \n💬| С репликой: «{text}»')
+                    else:
+                        bot.reply_to(message,
+                                     f'🐐| @{message.from_user.username} превратила @{target_username} в козла')
+
+
+
+
+
+@bot.message_handler(func=lambda message: re.search(r'^повесить\b', message.text.lower()))
+def scare(message):
+    if re.search(r'^повесить\b', message.text.lower()):  # Проверка наличия команды "испугать" в начале предложения
+        if len(message.text.split()) == 2 and message.text.split()[1].startswith("@"):  # Проверка формата "испугать @user"
+            sender_username = message.from_user.username
+            target_username = message.text.split()[1][1:]  # Извлечение имени пользователя без @
+            bot.reply_to(message, f'🧶🪑| @{sender_username} повесил(а) @{target_username}')
+            return
+
+    if message.text.lower().startswith("повесить") or message.text.lower().endswith("повесить"):  # Проверка наличия команды "испугать" в начале или в конце
+        if message.reply_to_message and message.reply_to_message.from_user.username:  # Проверка наличия ответа на сообщение
+            target_username = message.reply_to_message.from_user.username
+            if len(message.text.split()) > 1:
+                if "\n" in message.text:
+                    text = message.text.split("\n", 1)[1]
+                    bot.reply_to(message, f'🧶🪑| @{message.from_user.username} повесил(а) @{target_username} \n💬| С репликой: «{text}»')
+                else:
+                    bot.reply_to(message, f'🧶🪑| @{message.from_user.username} повесил(а) @{target_username}')
+            return
+
+        if len(message.text.split()) > 1:
+            target_username = message.text.split()[1]
+            if target_username.startswith("@"):
+                target_username = target_username[1:]
+                if target_username != message.from_user.username:
+                    text_index = 2
+                    if "\n" in message.text:
+                        text = message.text.split("\n", 1)[1]
+                        bot.reply_to(message,
+                                     f'🧶🪑| @{message.from_user.username} повесил(а) @{target_username} \n💬| С репликой: «{text}»')
+                    else:
+                        bot.reply_to(message,
+                                     f'🧶🪑| @{message.from_user.username} повесил(а) @{target_username}')
+
+
+
+
+
+import re
+
+@bot.message_handler(func=lambda message: re.search(r'^кинуть торт\b', message.text.lower()))
+def throw_axe(message):
+    if re.search(r'^кинуть торт\b', message.text.lower()):  # Проверка наличия команды "кинуть топор" в начале предложения
+        if len(message.text.split()) == 3 and message.text.split()[1].startswith("@"):  # Проверка формата "кинуть топор @user"
+            sender_username = message.from_user.username
+            target_username = message.text.split()[2][1:]  # Извлечение имени пользователя без @
+            bot.reply_to(message, f'🎂🍰| @{sender_username} кинул(а) торт в @{target_username}')
+            return
+
+    if message.text.lower().startswith("кинуть торт") or message.text.lower().endswith("кинуть торт"):  # Проверка наличия команды "кинуть топор" в начале или в конце
+        if message.reply_to_message and message.reply_to_message.from_user.username:  # Проверка наличия ответа на сообщение
+            target_username = message.reply_to_message.from_user.username
+            if len(message.text.split()) > 1:
+                if "\n" in message.text:
+                    text = message.text.split("\n", 1)[1]
+                    bot.reply_to(message, f'🎂🍰| @{message.from_user.username} кинул(а) торт в @{target_username}\n💬| С репликой: «{text}»')
+                else:
+                    bot.reply_to(message, f'🎂🍰| @{message.from_user.username} кинул(а) торт в @{target_username}')
+            return
+
+        if len(message.text.split()) > 2:
+            target_username = message.text.split()[2]
+            if target_username.startswith("@"):
+                target_username = target_username[1:]
+                if target_username != message.from_user.username:
+                    text_index = 3
+                    if "\n" in message.text:
+                        text = message.text.split("\n", 1)[1]
+                        bot.reply_to(message,
+                                     f'🎂🍰| @{message.from_user.username} кинул(а) торт в @{target_username}\n💬| С репликой: «{text}»')
+                    else:
+                        bot.reply_to(message,
+                                     f'🎂🍰| @{message.from_user.username} кинул(а) торт в @{target_username}')
+
+
+
+
+@bot.message_handler(func=lambda message: re.search(r'^превратить в лемура\b', message.text.lower()))
+def drown_in_toilet(message):
+    if re.search(r'^превратить в лемура\b', message.text.lower()):  # Проверка наличия команды "взять на руки" в начале предложения
+        if len(message.text.split()) == 4 and message.text.split()[2].startswith("@"):  # Проверка формата "взять на руки @user"
+            sender_username = message.from_user.username
+            target_username = message.text.split()[3][1:]  # Извлечение имени пользователя без @
+            bot.reply_to(message, f'🐒| @{sender_username} превратила @{target_username} в козла')
+            return
+
+    if message.text.lower().startswith("превратить в лемура") or message.text.lower().endswith("превратить в лемура"):  # Проверка наличия команды "взять на руки" в начале или в конце
+        if message.reply_to_message and message.reply_to_message.from_user.username:  # Проверка наличия ответа на сообщение
+            target_username = message.reply_to_message.from_user.username
+            if len(message.text.split()) > 1:
+                if "\n" in message.text:
+                    text = message.text.split("\n", 1)[1]
+                    bot.reply_to(message, f'🐒| @{message.from_user.username} превратила @{target_username} в лемура \n💬| С репликой: «{text}»')
+                else:
+                    bot.reply_to(message, f'🐒| @{message.from_user.username} превратила @{target_username} в лемура')
+            return
+
+        if len(message.text.split()) > 3:
+            target_username = message.text.split()[3]
+            if target_username.startswith("@"):
+                target_username = target_username[1:]
+                if target_username != message.from_user.username:
+                    text_index = 3
+                    if "\n" in message.text:
+                        text = message.text.split("\n", 1)[1]
+                        bot.reply_to(message,
+                                     f'🐒| @{message.from_user.username} превратила @{target_username} в лемура \n💬| С репликой: «{text}»')
+                    else:
+                        bot.reply_to(message,
+                                     f'🐒| @{message.from_user.username} превратила @{target_username} в лемура')
+
+
+
+@bot.message_handler(func=lambda message: re.search(r'^превратить в лемура\b', message.text.lower()))
+def drown_in_toilet(message):
+    if re.search(r'^превратить в лемура\b', message.text.lower()):  # Проверка наличия команды "взять на руки" в начале предложения
+        if len(message.text.split()) == 4 and message.text.split()[2].startswith("@"):  # Проверка формата "взять на руки @user"
+            sender_username = message.from_user.username
+            target_username = message.text.split()[3][1:]  # Извлечение имени пользователя без @
+            bot.reply_to(message, f'🐒| @{sender_username} превратила @{target_username} в козла')
+            return
+
+    if message.text.lower().startswith("превратить в лемура") or message.text.lower().endswith("превратить в лемура"):  # Проверка наличия команды "взять на руки" в начале или в конце
+        if message.reply_to_message and message.reply_to_message.from_user.username:  # Проверка наличия ответа на сообщение
+            target_username = message.reply_to_message.from_user.username
+            if len(message.text.split()) > 1:
+                if "\n" in message.text:
+                    text = message.text.split("\n", 1)[1]
+                    bot.reply_to(message, f'🐒| @{message.from_user.username} превратила @{target_username} в лемура \n💬| С репликой: «{text}»')
+                else:
+                    bot.reply_to(message, f'🐒| @{message.from_user.username} превратила @{target_username} в лемура')
+            return
+
+        if len(message.text.split()) > 3:
+            target_username = message.text.split()[3]
+            if target_username.startswith("@"):
+                target_username = target_username[1:]
+                if target_username != message.from_user.username:
+                    text_index = 3
+                    if "\n" in message.text:
+                        text = message.text.split("\n", 1)[1]
+                        bot.reply_to(message,
+                                     f'🐒| @{message.from_user.username} превратила @{target_username} в лемура \n💬| С репликой: «{text}»')
+                    else:
+                        bot.reply_to(message,
+                                     f'🐒| @{message.from_user.username} превратила @{target_username} в лемура')
+
+
+
+
+
+@bot.message_handler(func=lambda message: re.search(r'^покормить\b', message.text.lower()))
+def scare(message):
+    if re.search(r'^покормить\b', message.text.lower()):  # Проверка наличия команды "испугать" в начале предложения
+        if len(message.text.split()) == 2 and message.text.split()[1].startswith("@"):  # Проверка формата "испугать @user"
+            sender_username = message.from_user.username
+            target_username = message.text.split()[1][1:]  # Извлечение имени пользователя без @
+            bot.reply_to(message, f'🍕| @{sender_username} покормил(а) @{target_username}')
+            return
+
+    if message.text.lower().startswith("покормить") or message.text.lower().endswith("покормить"):  # Проверка наличия команды "испугать" в начале или в конце
+        if message.reply_to_message and message.reply_to_message.from_user.username:  # Проверка наличия ответа на сообщение
+            target_username = message.reply_to_message.from_user.username
+            if len(message.text.split()) > 1:
+                if "\n" in message.text:
+                    text = message.text.split("\n", 1)[1]
+                    bot.reply_to(message, f'🍕| @{message.from_user.username} покормил(а) @{target_username} \n💬| С репликой: «{text}»')
+                else:
+                    bot.reply_to(message, f'🍕| @{message.from_user.username} покормил(а) @{target_username}')
+            return
+
+        if len(message.text.split()) > 1:
+            target_username = message.text.split()[1]
+            if target_username.startswith("@"):
+                target_username = target_username[1:]
+                if target_username != message.from_user.username:
+                    text_index = 2
+                    if "\n" in message.text:
+                        text = message.text.split("\n", 1)[1]
+                        bot.reply_to(message,
+                                     f'🍕| @{message.from_user.username} покормил(а) @{target_username} \n💬| С репликой: «{text}»')
+                    else:
+                        bot.reply_to(message,
+                                     f'🍕| @{message.from_user.username} покормил(а) @{target_username}')
+
+
+
+
+
+
+
+@bot.message_handler(func=lambda message: re.search(r'^поцеловать в лобик\b', message.text.lower()))
+def drown_in_toilet(message):
+    if re.search(r'^поцеловать в лобик\b', message.text.lower()):  # Проверка наличия команды "утопить в унитазе" в начале предложения
+        if len(message.text.split()) == 4 and message.text.split()[2].startswith("@"):  # Проверка формата "утопить в унитазе @user"
+            sender_username = message.from_user.username
+            target_username = message.text.split()[3][1:]  # Извлечение имени пользователя без @
+            bot.reply_to(message, f'😘💋| @{sender_username} поцеловал(а) в лобик @{target_username}')
+            return
+
+    if message.text.lower().startswith("поцеловать в лобик") or message.text.lower().endswith("поцеловать в лобик"):  # Проверка наличия команды "утопить в унитазе" в начале или в конце
+        if message.reply_to_message and message.reply_to_message.from_user.username:  # Проверка наличия ответа на сообщение
+            target_username = message.reply_to_message.from_user.username
+            if len(message.text.split()) > 1:
+                if "\n" in message.text:
+                    text = message.text.split("\n", 1)[1]
+                    bot.reply_to(message, f'😘💋| @{message.from_user.username} поцеловал(а) в лобик @{target_username}\n💬| С репликой: «{text}»')
+                else:
+                    bot.reply_to(message, f'😘💋| @{message.from_user.username} поцеловал(а) в лобик @{target_username}')
+            return
+
+        if len(message.text.split()) > 3:
+            target_username = message.text.split()[3]
+            if target_username.startswith("@"):
+                target_username = target_username[1:]
+                if target_username != message.from_user.username:
+                    text_index = 3
+                    if "\n" in message.text:
+                        text = message.text.split("\n", 1)[1]
+                        bot.reply_to(message,
+                                     f'😘💋| @{message.from_user.username} поцеловал(а) в лобик @{target_username}\n💬| С репликой: «{text}»')
+                    else:
+                        bot.reply_to(message,
+                                     f'😘💋| @{message.from_user.username} поцеловал(а) в лобик @{target_username}')
+
+
+
+
+
+
+
+@bot.message_handler(func=lambda message: re.search(r'^пригласить на чай\b', message.text.lower()))
+def drown_in_toilet(message):
+    if re.search(r'^пригласить на чай\b', message.text.lower()):  # Проверка наличия команды "утопить в унитазе" в начале предложения
+        if len(message.text.split()) == 4 and message.text.split()[2].startswith("@"):  # Проверка формата "утопить в унитазе @user"
+            sender_username = message.from_user.username
+            target_username = message.text.split()[3][1:]  # Извлечение имени пользователя без @
+            bot.reply_to(message, f'🍵| @{sender_username} пригласил(а) на чай @{target_username}')
+            return
+
+    if message.text.lower().startswith("пригласить на чай") or message.text.lower().endswith("пригласить на чай"):  # Проверка наличия команды "утопить в унитазе" в начале или в конце
+        if message.reply_to_message and message.reply_to_message.from_user.username:  # Проверка наличия ответа на сообщение
+            target_username = message.reply_to_message.from_user.username
+            if len(message.text.split()) > 1:
+                if "\n" in message.text:
+                    text = message.text.split("\n", 1)[1]
+                    bot.reply_to(message, f'🍵| @{message.from_user.username} пригласил(а) на чай @{target_username}\n💬| С репликой: «{text}»')
+                else:
+                    bot.reply_to(message, f'🍵| @{message.from_user.username} пригласил(а) на чай @{target_username}')
+            return
+
+        if len(message.text.split()) > 3:
+            target_username = message.text.split()[3]
+            if target_username.startswith("@"):
+                target_username = target_username[1:]
+                if target_username != message.from_user.username:
+                    text_index = 3
+                    if "\n" in message.text:
+                        text = message.text.split("\n", 1)[1]
+                        bot.reply_to(message,
+                                     f'🍵| @{message.from_user.username} пригласил(а) на чай @{target_username}\n💬| С репликой: «{text}»')
+                    else:
+                        bot.reply_to(message,
+                                     f'🍵| @{message.from_user.username} пригласил(а) на чай @{target_username}')
+
+
+
+
+@bot.message_handler(func=lambda message: re.search(r'^признаться в любви\b', message.text.lower()))
+def drown_in_toilet(message):
+    if re.search(r'^признаться в любви\b', message.text.lower()):  # Проверка наличия команды "утопить в унитазе" в начале предложения
+        if len(message.text.split()) == 4 and message.text.split()[2].startswith("@"):  # Проверка формата "утопить в унитазе @user"
+            sender_username = message.from_user.username
+            target_username = message.text.split()[3][1:]  # Извлечение имени пользователя без @
+            bot.reply_to(message, f'❤️| @{sender_username} признал(а)сь в любви ❤️ @{target_username} ❤️ ')
+            return
+
+    if message.text.lower().startswith("признаться в любви") or message.text.lower().endswith("признаться в любви"):  # Проверка наличия команды "утопить в унитазе" в начале или в конце
+        if message.reply_to_message and message.reply_to_message.from_user.username:  # Проверка наличия ответа на сообщение
+            target_username = message.reply_to_message.from_user.username
+            if len(message.text.split()) > 1:
+                if "\n" in message.text:
+                    text = message.text.split("\n", 1)[1]
+                    bot.reply_to(message, f'❤️| @{message.from_user.username} признал(а)сь в любви ❤ @{target_username}\n💬| С репликой: «{text}» ❤️ ')
+                else:
+                    bot.reply_to(message, f'❤️| @{message.from_user.username} признал(а)сь в любви ❤ @{target_username} ❤️ ')
+            return
+
+        if len(message.text.split()) > 3:
+            target_username = message.text.split()[3]
+            if target_username.startswith("@"):
+                target_username = target_username[1:]
+                if target_username != message.from_user.username:
+                    text_index = 3
+                    if "\n" in message.text:
+                        text = message.text.split("\n", 1)[1]
+                        bot.reply_to(message,
+                                     f'❤️| @{message.from_user.username} признал(а)сь в любви ❤ @{target_username}\n💬| С репликой: «{text}» ❤ ️')
+                    else:
+                        bot.reply_to(message,
+                                     f'❤️| @{message.from_user.username} признал(а)сь в любви ❤ @{target_username} ❤️ ')
+
+
+
+
+
+
+import re
+
+@bot.message_handler(func=lambda message: re.search(r'^дать конфетку\b', message.text.lower()))
+def throw_axe(message):
+    if re.search(r'^дать конфетку\b', message.text.lower()):  # Проверка наличия команды "кинуть топор" в начале предложения
+        if len(message.text.split()) == 3 and message.text.split()[1].startswith("@"):  # Проверка формата "кинуть топор @user"
+            sender_username = message.from_user.username
+            target_username = message.text.split()[2][1:]  # Извлечение имени пользователя без @
+            bot.reply_to(message, f'🍬| @{sender_username} дал(а) конфетку @{target_username}')
+            return
+
+    if message.text.lower().startswith("дать конфетку") or message.text.lower().endswith("дать конфетку"):  # Проверка наличия команды "кинуть топор" в начале или в конце
+        if message.reply_to_message and message.reply_to_message.from_user.username:  # Проверка наличия ответа на сообщение
+            target_username = message.reply_to_message.from_user.username
+            if len(message.text.split()) > 1:
+                if "\n" in message.text:
+                    text = message.text.split("\n", 1)[1]
+                    bot.reply_to(message, f'🍬| @{message.from_user.username} дал(а) конфетку @{target_username}\n💬| С репликой: «{text}»')
+                else:
+                    bot.reply_to(message, f'🍬| @{message.from_user.username} дал(а) конфетку @{target_username}')
+            return
+
+        if len(message.text.split()) > 2:
+            target_username = message.text.split()[2]
+            if target_username.startswith("@"):
+                target_username = target_username[1:]
+                if target_username != message.from_user.username:
+                    text_index = 3
+                    if "\n" in message.text:
+                        text = message.text.split("\n", 1)[1]
+                        bot.reply_to(message,
+                                     f'🍬| @{message.from_user.username} дал(а) конфетку @{target_username}\n💬| С репликой: «{text}»')
+                    else:
+                        bot.reply_to(message,
+                                     f'🍬| @{message.from_user.username} дал(а) конфетку @{target_username}')
+
+
+
+
+import re
+
+@bot.message_handler(func=lambda message: re.search(r'^дать кетю\b', message.text.lower()))
+def throw_axe(message):
+    if re.search(r'^дать кетю\b', message.text.lower()):  # Проверка наличия команды "кинуть топор" в начале предложения
+        if len(message.text.split()) == 3 and message.text.split()[1].startswith("@"):  # Проверка формата "кинуть топор @user"
+            sender_username = message.from_user.username
+            target_username = message.text.split()[2][1:]  # Извлечение имени пользователя без @
+            bot.reply_to(message, f'🍬| @{sender_username} дал(а) конфетку @{target_username}')
+            return
+
+    if message.text.lower().startswith("дать кетю") or message.text.lower().endswith("дать кетю"):  # Проверка наличия команды "кинуть топор" в начале или в конце
+        if message.reply_to_message and message.reply_to_message.from_user.username:  # Проверка наличия ответа на сообщение
+            target_username = message.reply_to_message.from_user.username
+            if len(message.text.split()) > 1:
+                if "\n" in message.text:
+                    text = message.text.split("\n", 1)[1]
+                    bot.reply_to(message, f'🍬| @{message.from_user.username} дал(а) конфетку @{target_username}\n💬| С репликой: «{text}»')
+                else:
+                    bot.reply_to(message, f'🍬| @{message.from_user.username} дал(а) конфетку @{target_username}')
+            return
+
+        if len(message.text.split()) > 2:
+            target_username = message.text.split()[2]
+            if target_username.startswith("@"):
+                target_username = target_username[1:]
+                if target_username != message.from_user.username:
+                    text_index = 3
+                    if "\n" in message.text:
+                        text = message.text.split("\n", 1)[1]
+                        bot.reply_to(message,
+                                     f'🍬| @{message.from_user.username} дал(а) конфетку @{target_username}\n💬| С репликой: «{text}»')
+                    else:
+                        bot.reply_to(message,
+                                     f'🍬| @{message.from_user.username} дал(а) конфетку @{target_username}')
+
+
+
+
+
+
+
+
+@bot.message_handler(func=lambda message: re.search(r'^швырнуть\b', message.text.lower()))
+def scare(message):
+    if re.search(r'^швырнуть\b', message.text.lower()):  # Проверка наличия команды "испугать" в начале предложения
+        if len(message.text.split()) == 2 and message.text.split()[1].startswith("@"):  # Проверка формата "испугать @user"
+            sender_username = message.from_user.username
+            target_username = message.text.split()[1][1:]  # Извлечение имени пользователя без @
+            bot.reply_to(message, f'😣| @{sender_username} швырнул(а) в стену @{target_username}')
+            return
+
+    if message.text.lower().startswith("швырнуть") or message.text.lower().endswith("швырнуть"):  # Проверка наличия команды "испугать" в начале или в конце
+        if message.reply_to_message and message.reply_to_message.from_user.username:  # Проверка наличия ответа на сообщение
+            target_username = message.reply_to_message.from_user.username
+            if len(message.text.split()) > 1:
+                if "\n" in message.text:
+                    text = message.text.split("\n", 1)[1]
+                    bot.reply_to(message, f'😣| @{message.from_user.username} швырнул(а) в стену @{target_username}\n💬| С репликой: «{text}»')
+                else:
+                    bot.reply_to(message, f'😣| @{message.from_user.username} швырнул(а) в стену @{target_username}')
+            return
+
+        if len(message.text.split()) > 1:
+            target_username = message.text.split()[1]
+            if target_username.startswith("@"):
+                target_username = target_username[1:]
+                if target_username != message.from_user.username:
+                    text_index = 2
+                    if "\n" in message.text:
+                        text = message.text.split("\n", 1)[1]
+                        bot.reply_to(message,
+                                     f'😣| @{message.from_user.username} швырнул(а) в стену @{target_username}\n💬| С репликой: «{text}»')
+                    else:
+                        bot.reply_to(message,
+                                     f'😣| @{message.from_user.username} швырнул(а) в стену @{target_username}')
+
+
+
+@bot.message_handler(func=lambda message: re.search(r'^купать\b', message.text.lower()))
+def scare(message):
+    if re.search(r'^купать\b', message.text.lower()):  # Проверка наличия команды "испугать" в начале предложения
+        if len(message.text.split()) == 2 and message.text.split()[1].startswith("@"):  # Проверка формата "испугать @user"
+            sender_username = message.from_user.username
+            target_username = message.text.split()[1][1:]  # Извлечение имени пользователя без @
+            bot.reply_to(message, f'🛁| @{sender_username} покупал(а) в ванной @{target_username}')
+            return
+
+    if message.text.lower().startswith("купать") or message.text.lower().endswith("купать"):  # Проверка наличия команды "испугать" в начале или в конце
+        if message.reply_to_message and message.reply_to_message.from_user.username:  # Проверка наличия ответа на сообщение
+            target_username = message.reply_to_message.from_user.username
+            if len(message.text.split()) > 1:
+                if "\n" in message.text:
+                    text = message.text.split("\n", 1)[1]
+                    bot.reply_to(message, f'🛁| @{message.from_user.username} покупал(а) в ванной @{target_username}\n💬| С репликой: «{text}»')
+                else:
+                    bot.reply_to(message, f'🛁| @{message.from_user.username} покупал(а) в ванной @{target_username}')
+            return
+
+        if len(message.text.split()) > 1:
+            target_username = message.text.split()[1]
+            if target_username.startswith("@"):
+                target_username = target_username[1:]
+                if target_username != message.from_user.username:
+                    text_index = 2
+                    if "\n" in message.text:
+                        text = message.text.split("\n", 1)[1]
+                        bot.reply_to(message,
+                                     f'🛁| @{message.from_user.username} покупал(а) в ванной @{target_username}\n💬| С репликой: «{text}»')
+                    else:
+                        bot.reply_to(message,
+                                     f'🛁| @{message.from_user.username} покупал(а) в ванной @{target_username}')
+
+
+
+
+
+
+
+
+@bot.message_handler(func=lambda message: re.search(r'^посушить\b', message.text.lower()))
+def scare(message):
+    if re.search(r'^посушить\b', message.text.lower()):  # Проверка наличия команды "испугать" в начале предложения
+        if len(message.text.split()) == 2 and message.text.split()[1].startswith("@"):  # Проверка формата "испугать @user"
+            sender_username = message.from_user.username
+            target_username = message.text.split()[1][1:]  # Извлечение имени пользователя без @
+            bot.reply_to(message, f'💨| @{sender_username} посушил(а) @{target_username}')
+            return
+
+    if message.text.lower().startswith("посушить") or message.text.lower().endswith("посушить"):  # Проверка наличия команды "испугать" в начале или в конце
+        if message.reply_to_message and message.reply_to_message.from_user.username:  # Проверка наличия ответа на сообщение
+            target_username = message.reply_to_message.from_user.username
+            if len(message.text.split()) > 1:
+                if "\n" in message.text:
+                    text = message.text.split("\n", 1)[1]
+                    bot.reply_to(message, f'💨| @{message.from_user.username} посушил(а) @{target_username}\n💬| С репликой: «{text}»')
+                else:
+                    bot.reply_to(message, f'💨| @{message.from_user.username} посушил(а) @{target_username}')
+            return
+
+        if len(message.text.split()) > 1:
+            target_username = message.text.split()[1]
+            if target_username.startswith("@"):
+                target_username = target_username[1:]
+                if target_username != message.from_user.username:
+                    text_index = 2
+                    if "\n" in message.text:
+                        text = message.text.split("\n", 1)[1]
+                        bot.reply_to(message,
+                                     f'💨| @{message.from_user.username} посушил(а) @{target_username}\n💬| С репликой: «{text}»')
+                    else:
+                        bot.reply_to(message,
+                                     f'💨| @{message.from_user.username} посушил(а) @{target_username}')
+
+
+
+
+
+@bot.message_handler(func=lambda message: re.search(r'^расстрепать\b', message.text.lower()))
+def scare(message):
+    if re.search(r'^расстрепать\b', message.text.lower()):  # Проверка наличия команды "испугать" в начале предложения
+        if len(message.text.split()) == 2 and message.text.split()[1].startswith("@"):  # Проверка формата "испугать @user"
+            sender_username = message.from_user.username
+            target_username = message.text.split()[1][1:]  # Извлечение имени пользователя без @
+            bot.reply_to(message, f'😝😘| @{sender_username} расстрепал(а) @{target_username}')
+            return
+
+    if message.text.lower().startswith("расстрепать") or message.text.lower().endswith("расстрепать"):  # Проверка наличия команды "испугать" в начале или в конце
+        if message.reply_to_message and message.reply_to_message.from_user.username:  # Проверка наличия ответа на сообщение
+            target_username = message.reply_to_message.from_user.username
+            if len(message.text.split()) > 1:
+                if "\n" in message.text:
+                    text = message.text.split("\n", 1)[1]
+                    bot.reply_to(message, f'😝😘| @{message.from_user.username} расстрепал(а)  @{target_username}\n💬| С репликой: «{text}»')
+                else:
+                    bot.reply_to(message, f'😝😘| @{message.from_user.username} расстрепал(а)  @{target_username}')
+            return
+
+        if len(message.text.split()) > 1:
+            target_username = message.text.split()[1]
+            if target_username.startswith("@"):
+                target_username = target_username[1:]
+                if target_username != message.from_user.username:
+                    text_index = 2
+                    if "\n" in message.text:
+                        text = message.text.split("\n", 1)[1]
+                        bot.reply_to(message,
+                                     f'😝😘| @{message.from_user.username} расстрепал(а)  @{target_username}\n💬| С репликой: «{text}»')
+                    else:
+                        bot.reply_to(message,
+                                     f'😝😘| @{message.from_user.username} расстрепал(а)  @{target_username}')
+
+
+
+@bot.message_handler(func=lambda message: re.search(r'^уложить спать\b', message.text.lower()))
+def throw_axe(message):
+    if re.search(r'^уложить спать\b', message.text.lower()):  # Проверка наличия команды "кинуть топор" в начале предложения
+        if len(message.text.split()) == 3 and message.text.split()[1].startswith("@"):  # Проверка формата "кинуть топор @user"
+            sender_username = message.from_user.username
+            target_username = message.text.split()[2][1:]  # Извлечение имени пользователя без @
+            bot.reply_to(message, f'🛌💤| @{sender_username} уложил(а) спать в кроватку @{target_username}')
+            return
+
+    if message.text.lower().startswith("уложить спать") or message.text.lower().endswith("уложить спать"):  # Проверка наличия команды "кинуть топор" в начале или в конце
+        if message.reply_to_message and message.reply_to_message.from_user.username:  # Проверка наличия ответа на сообщение
+            target_username = message.reply_to_message.from_user.username
+            if len(message.text.split()) > 1:
+                if "\n" in message.text:
+                    text = message.text.split("\n", 1)[1]
+                    bot.reply_to(message, f'🛌💤| @{message.from_user.username} уложил(а) спать в кроватку @{target_username}\n💬| С репликой: «{text}»')
+                else:
+                    bot.reply_to(message, f'🛌💤| @{message.from_user.username} уложил(а) спать в кроватку @{target_username}')
+            return
+
+        if len(message.text.split()) > 2:
+            target_username = message.text.split()[2]
+            if target_username.startswith("@"):
+                target_username = target_username[1:]
+                if target_username != message.from_user.username:
+                    text_index = 3
+                    if "\n" in message.text:
+                        text = message.text.split("\n", 1)[1]
+                        bot.reply_to(message,
+                                     f'🛌💤| @{message.from_user.username} уложил(а) спать в кроватку @{target_username}\n💬| С репликой: «{text}»')
+                    else:
+                        bot.reply_to(message,
+                                     f'🛌💤| @{message.from_user.username} уложил(а) спать в кроватку @{target_username}')
+
+
+
+
+
+
+
+
+@bot.message_handler(func=lambda message: re.search(r'^послать своей дорогой\b', message.text.lower()))
+def drown_in_toilet(message):
+    if re.search(r'^послать своей дорогой\b', message.text.lower()):  # Проверка наличия команды "утопить в унитазе" в начале предложения
+        if len(message.text.split()) == 4 and message.text.split()[2].startswith("@"):  # Проверка формата "утопить в унитазе @user"
+            sender_username = message.from_user.username
+            target_username = message.text.split()[3][1:]  # Извлечение имени пользователя без @
+            bot.reply_to(message, f'🖕😒| @{sender_username} послал(а) @{target_username} своей дорогой ')
+            return
+
+    if message.text.lower().startswith("послать своей дорогой") or message.text.lower().endswith("послать своей дорогой"):  # Проверка наличия команды "утопить в унитазе" в начале или в конце
+        if message.reply_to_message and message.reply_to_message.from_user.username:  # Проверка наличия ответа на сообщение
+            target_username = message.reply_to_message.from_user.username
+            if len(message.text.split()) > 1:
+                if "\n" in message.text:
+                    text = message.text.split("\n", 1)[1]
+                    bot.reply_to(message, f'🖕😒| @{message.from_user.username} послал(а) @{target_username} своей дорогой \n💬| С репликой: «{text}»')
+                else:
+                    bot.reply_to(message, f'🖕😒| @{message.from_user.username} послал(а) @{target_username} своей дорогой ')
+            return
+
+        if len(message.text.split()) > 3:
+            target_username = message.text.split()[3]
+            if target_username.startswith("@"):
+                target_username = target_username[1:]
+                if target_username != message.from_user.username:
+                    text_index = 3
+                    if "\n" in message.text:
+                        text = message.text.split("\n", 1)[1]
+                        bot.reply_to(message,
+                                     f'🖕😒| @{message.from_user.username} послал(а) @{target_username} своей дорогой \n💬| С репликой: «{text}»')
+                    else:
+                        bot.reply_to(message,
+                                     f'🖕😒| @{message.from_user.username} послал(а) @{target_username} своей дорогой ')
+
+
+
+
+
+
+
+
+
+@bot.message_handler(func=lambda message: re.search(r'^погладить по головке\b', message.text.lower()))
+def drown_in_toilet(message):
+    if re.search(r'^погладить по головке\b', message.text.lower()):  # Проверка наличия команды "утопить в унитазе" в начале предложения
+        if len(message.text.split()) == 4 and message.text.split()[2].startswith("@"):  # Проверка формата "утопить в унитазе @user"
+            sender_username = message.from_user.username
+            target_username = message.text.split()[3][1:]  # Извлечение имени пользователя без @
+            bot.reply_to(message, f'👋😊| @{sender_username} погладила @{target_username} по головке ')
+            return
+
+    if message.text.lower().startswith("погладить по головке") or message.text.lower().endswith("погладить по головке"):  # Проверка наличия команды "утопить в унитазе" в начале или в конце
+        if message.reply_to_message and message.reply_to_message.from_user.username:  # Проверка наличия ответа на сообщение
+            target_username = message.reply_to_message.from_user.username
+            if len(message.text.split()) > 1:
+                if "\n" in message.text:
+                    text = message.text.split("\n", 1)[1]
+                    bot.reply_to(message, f'👋😊| @{message.from_user.username} погладила @{target_username} по головке  \n💬| С репликой: «{text}»')
+                else:
+                    bot.reply_to(message, f'👋😊| @{message.from_user.username} погладила @{target_username} по головке')
+            return
+
+        if len(message.text.split()) > 3:
+            target_username = message.text.split()[3]
+            if target_username.startswith("@"):
+                target_username = target_username[1:]
+                if target_username != message.from_user.username:
+                    text_index = 3
+                    if "\n" in message.text:
+                        text = message.text.split("\n", 1)[1]
+                        bot.reply_to(message,
+                                     f'👋😊| @{message.from_user.username} погладила @{target_username} по головке  \n💬| С репликой: «{text}»')
+                    else:
+                        bot.reply_to(message,
+                                     f'👋😊| @{message.from_user.username} погладила @{target_username} по головке  ')
+
+
+
+
+
+
+
+@bot.message_handler(func=lambda message: re.search(r'^взяться за руки\b', message.text.lower()))
+def drown_in_toilet(message):
+    if re.search(r'^взяться за руки\b', message.text.lower()):  # Проверка наличия команды "утопить в унитазе" в начале предложения
+        if len(message.text.split()) == 4 and message.text.split()[2].startswith("@"):  # Проверка формата "утопить в унитазе @user"
+            sender_username = message.from_user.username
+            target_username = message.text.split()[3][1:]  # Извлечение имени пользователя без @
+            bot.reply_to(message, f'💗🙏| @{sender_username} взял(а)сь за руки с @{target_username}')
+            return
+
+    if message.text.lower().startswith("взяться за руки") or message.text.lower().endswith("взяться за руки"):  # Проверка наличия команды "утопить в унитазе" в начале или в конце
+        if message.reply_to_message and message.reply_to_message.from_user.username:  # Проверка наличия ответа на сообщение
+            target_username = message.reply_to_message.from_user.username
+            if len(message.text.split()) > 1:
+                if "\n" in message.text:
+                    text = message.text.split("\n", 1)[1]
+                    bot.reply_to(message, f'💗🙏| @{message.from_user.username} взял(а)сь за руки @{target_username} \n💬| С репликой: «{text}»')
+                else:
+                    bot.reply_to(message, f'💗🙏| @{message.from_user.username} взял(а)сь за руки @{target_username}')
+            return
+
+        if len(message.text.split()) > 3:
+            target_username = message.text.split()[3]
+            if target_username.startswith("@"):
+                target_username = target_username[1:]
+                if target_username != message.from_user.username:
+                    text_index = 3
+                    if "\n" in message.text:
+                        text = message.text.split("\n", 1)[1]
+                        bot.reply_to(message,
+                                     f'💗🙏| @{message.from_user.username} взял(а)сь за руки @{target_username} \n💬| С репликой: «{text}»')
+                    else:
+                        bot.reply_to(message,
+                                     f'💗🙏| @{message.from_user.username} взял(а)сь за руки @{target_username}')
+
+
+
+
+
+
+
+
+@bot.message_handler(func=lambda message: re.search(r'^отмудохать\b', message.text.lower()))
+def scare(message):
+    if re.search(r'^отмудохать\b', message.text.lower()):  # Проверка наличия команды "испугать" в начале предложения
+        if len(message.text.split()) == 2 and message.text.split()[1].startswith("@"):  # Проверка формата "испугать @user"
+            sender_username = message.from_user.username
+            target_username = message.text.split()[1][1:]  # Извлечение имени пользователя без @
+            bot.reply_to(message, f'🤒🥴| @{sender_username} отмудохал(а) @{target_username}')
+            return
+
+    if message.text.lower().startswith("отмудохать") or message.text.lower().endswith("отмудохать"):  # Проверка наличия команды "испугать" в начале или в конце
+        if message.reply_to_message and message.reply_to_message.from_user.username:  # Проверка наличия ответа на сообщение
+            target_username = message.reply_to_message.from_user.username
+            if len(message.text.split()) > 1:
+                if "\n" in message.text:
+                    text = message.text.split("\n", 1)[1]
+                    bot.reply_to(message, f'🤒🥴| @{message.from_user.username} отмудохал(а) @{target_username} \n💬| С репликой: «{text}»')
+                else:
+                    bot.reply_to(message, f'🤒🥴| @{message.from_user.username} отмудохал(а) @{target_username}')
+            return
+
+        if len(message.text.split()) > 1:
+            target_username = message.text.split()[1]
+            if target_username.startswith("@"):
+                target_username = target_username[1:]
+                if target_username != message.from_user.username:
+                    text_index = 2
+                    if "\n" in message.text:
+                        text = message.text.split("\n", 1)[1]
+                        bot.reply_to(message,
+                                     f'🤒🥴| @{message.from_user.username} отмудохал(а) @{target_username} \n💬| С репликой: «{text}»')
+                    else:
+                        bot.reply_to(message,
+                                     f'🤒🥴| @{message.from_user.username} отмудохал(а) @{target_username}')
+
+
+
+@bot.message_handler(func=lambda message: re.search(r'^сжечь\b', message.text.lower()))
+def scare(message):
+    if re.search(r'^сжечь\b', message.text.lower()):  # Проверка наличия команды "сжечь" в начале предложения
+        if len(message.text.split()) == 2 and message.text.split()[1].startswith("@"):  # Проверка формата "сжечь @user"
+            sender_username = message.from_user.username
+            target_username = message.text.split()[1][1:]  # Извлечение имени пользователя без @
+            bot.reply_to(message, f'🔥| @{sender_username} сжег(ла) на костре @{target_username}')
+            return
+
+    if message.text.lower().startswith("сжечь") or message.text.lower().endswith("сжечь"):  # Проверка наличия команды "испугать" в начале или в конце
+        if message.reply_to_message and message.reply_to_message.from_user.username:  # Проверка наличия ответа на сообщение
+            target_username = message.reply_to_message.from_user.username
+            if len(message.text.split()) > 1:
+                if "\n" in message.text:
+                    text = message.text.split("\n", 1)[1]
+                    bot.reply_to(message, f'🔥| @{message.from_user.username} сжег(ла) на костре @{target_username}\n💬| С репликой: «{text}»')
+                else:
+                    bot.reply_to(message, f'🔥| @{message.from_user.username} сжег(ла) на костре @{target_username}')
+            return
+
+        if len(message.text.split()) > 1:
+            target_username = message.text.split()[1]
+            if target_username.startswith("@"):
+                target_username = target_username[1:]
+                if target_username != message.from_user.username:
+                    text_index = 2
+                    if "\n" in message.text:
+                        text = message.text.split("\n", 1)[1]
+                        bot.reply_to(message,
+                                     f'🔥| @{message.from_user.username} сжег(ла) на костре @{target_username}\n💬| С репликой: «{text}»')
+                    else:
+                        bot.reply_to(message,
+                                     f'🔥| @{message.from_user.username} сжег(ла) на костре @{target_username}')
+
+
+
+
+@bot.message_handler(func=lambda message: re.search(r'^трахнуть\b', message.text.lower()))
+def scare(message):
+    if re.search(r'^трахнуть\b', message.text.lower()):  # Проверка наличия команды "трахнуть" в начале предложения
+        if len(message.text.split()) == 2 and message.text.split()[1].startswith("@"):  # Проверка формата "трахнуть @user"
+            sender_username = message.from_user.username
+            target_username = message.text.split()[1][1:]  # Извлечение имени пользователя без @
+            bot.reply_to(message, f'🥵🤬| @{sender_username} трахнул(а) @{target_username}')
+            return
+
+    if message.text.lower().startswith("трахнуть") or message.text.lower().endswith("трахнуть"):  # Проверка наличия команды "трахнуть" в начале или в конце
+        if message.reply_to_message and message.reply_to_message.from_user.username:  # Проверка наличия ответа на сообщение
+            target_username = message.reply_to_message.from_user.username
+            if len(message.text.split()) > 1:
+                if "\n" in message.text:
+                    text = message.text.split("\n", 1)[1]
+                    bot.reply_to(message, f'🥵🤬| @{message.from_user.username} трахнул(а) @{target_username}\n💬| С репликой: «{text}»')
+                else:
+                    bot.reply_to(message, f'🥵🤬| @{message.from_user.username} трахнул(а) @{target_username}')
+            return
+
+        if len(message.text.split()) > 1:
+            target_username = message.text.split()[1]
+            if target_username.startswith("@"):
+                target_username = target_username[1:]
+                if target_username != message.from_user.username:
+                    text_index = 2
+                    if "\n" in message.text:
+                        text = message.text.split("\n", 1)[1]
+                        bot.reply_to(message,
+                                     f'🥵🤬| @{message.from_user.username} трахнул(а)  @{target_username}\n💬| С репликой: «{text}»')
+                    else:
+                        bot.reply_to(message,
+                                     f'🥵🤬| @{message.from_user.username} трахнул(а)  @{target_username}')
+
+
+
+
+
+
+@bot.message_handler(func=lambda message: re.search(r'^ущипнуть\b', message.text.lower()))
+def scare(message):
+    if re.search(r'^ущипнуть\b', message.text.lower()):  # Проверка наличия команды "ущипнуть" в начале предложения
+        if len(message.text.split()) == 2 and message.text.split()[1].startswith("@"):  # Проверка формата "ущипнуть @user"
+            sender_username = message.from_user.username
+            target_username = message.text.split()[1][1:]  # Извлечение имени пользователя без @
+            bot.reply_to(message, f'😳🥺| @{sender_username} ущипнул(а) за жёпу @{target_username}')
+            return
+
+    if message.text.lower().startswith("ущипнуть") or message.text.lower().endswith("ущипнуть"):  # Проверка наличия команды "ущипнуть" в начале или в конце
+        if message.reply_to_message and message.reply_to_message.from_user.username:  # Проверка наличия ответа на сообщение
+            target_username = message.reply_to_message.from_user.username
+            if len(message.text.split()) > 1:
+                if "\n" in message.text:
+                    text = message.text.split("\n", 1)[1]
+                    bot.reply_to(message, f'😳🥺| @{message.from_user.username} ущипнул(а) за жёпу @{target_username}\n💬| С репликой: «{text}»')
+                else:
+                    bot.reply_to(message, f'😳🥺| @{message.from_user.username} ущипнул(а) за жёпу @{target_username}')
+            return
+
+        if len(message.text.split()) > 1:
+            target_username = message.text.split()[1]
+            if target_username.startswith("@"):
+                target_username = target_username[1:]
+                if target_username != message.from_user.username:
+                    text_index = 2
+                    if "\n" in message.text:
+                        text = message.text.split("\n", 1)[1]
+                        bot.reply_to(message,
+                                     f'😳🥺| @{message.from_user.username} ущипнул(а) за жёпу @{target_username}\n💬| С репликой: «{text}»')
+                    else:
+                        bot.reply_to(message,
+                                     f'😳🥺| @{message.from_user.username} ущипнул(а) за жёпу @{target_username}')
+
+
+
+
+@bot.message_handler(func=lambda message: re.search(r'^поцеловать\b', message.text.lower()))
+def scare(message):
+    if re.search(r'^поцеловать\b', message.text.lower()):  # Проверка наличия команды "поцеловать" в начале предложения
+        if len(message.text.split()) == 2 and message.text.split()[1].startswith("@"):  # Проверка формата "поцеловать @user"
+            sender_username = message.from_user.username
+            target_username = message.text.split()[1][1:]  # Извлечение имени пользователя без @
+            bot.reply_to(message, f'😘| @{sender_username} поцеловал(а) @{target_username}')
+            return
+
+    if message.text.lower().startswith("поцеловать") or message.text.lower().endswith("поцеловать"):  # Проверка наличия команды "поцеловать" в начале или в конце
+        if message.reply_to_message and message.reply_to_message.from_user.username:  # Проверка наличия ответа на сообщение
+            target_username = message.reply_to_message.from_user.username
+            if len(message.text.split()) > 1:
+                if "\n" in message.text:
+                    text = message.text.split("\n", 1)[1]
+                    bot.reply_to(message, f'😘| @{message.from_user.username} поцеловал(а) @{target_username}\n💬| С репликой: «{text}»')
+                else:
+                    bot.reply_to(message, f'😘| @{message.from_user.username} поцеловал(а) @{target_username}')
+            return
+
+        if len(message.text.split()) > 1:
+            target_username = message.text.split()[1]
+            if target_username.startswith("@"):
+                target_username = target_username[1:]
+                if target_username != message.from_user.username:
+                    text_index = 2
+                    if "\n" in message.text:
+                        text = message.text.split("\n", 1)[1]
+                        bot.reply_to(message,
+                                     f'😘| @{message.from_user.username} поцеловал(а) @{target_username}\n💬| С репликой: «{text}»')
+                    else:
+                        bot.reply_to(message,
+                                     f'😘| @{message.from_user.username} поцеловал(а) @{target_username}')
+
+
+
+
+
+@bot.message_handler(func=lambda message: re.search(r'^цем\b', message.text.lower()))
+def scare(message):
+    if re.search(r'^цем\b', message.text.lower()):  # Проверка наличия команды "цем" в начале предложения
+        if len(message.text.split()) == 2 and message.text.split()[1].startswith("@"):  # Проверка формата "цем @user"
+            sender_username = message.from_user.username
+            target_username = message.text.split()[1][1:]  # Извлечение имени пользователя без @
+            bot.reply_to(message, f'🥰| @{sender_username} цемнул(а) @{target_username}')
+            return
+
+    if message.text.lower().startswith("цем") or message.text.lower().endswith("цем"):  # Проверка наличия команды "цем" в начале или в конце
+        if message.reply_to_message and message.reply_to_message.from_user.username:  # Проверка наличия ответа на сообщение
+            target_username = message.reply_to_message.from_user.username
+            if len(message.text.split()) > 1:
+                if "\n" in message.text:
+                    text = message.text.split("\n", 1)[1]
+                    bot.reply_to(message, f'🥰| @{message.from_user.username} цемнул(а) @{target_username}\n💬| С репликой: «{text}»')
+                else:
+                    bot.reply_to(message, f'🥰| @{message.from_user.username} цемнул(а) @{target_username}')
+            return
+
+        if len(message.text.split()) > 1:
+            target_username = message.text.split()[1]
+            if target_username.startswith("@"):
+                target_username = target_username[1:]
+                if target_username != message.from_user.username:
+                    text_index = 2
+                    if "\n" in message.text:
+                        text = message.text.split("\n", 1)[1]
+                        bot.reply_to(message,
+                                     f'🥰| @{message.from_user.username} цемнул(а) @{target_username}\n💬| С репликой: «{text}»')
+                    else:
+                        bot.reply_to(message,
+                                     f'🥰| @{message.from_user.username} цемнул(а) @{target_username}')
+
+
+
+
+
+@bot.message_handler(func=lambda message: re.search(r'^поздравить\b', message.text.lower()))
+def scare(message):
+    if re.search(r'^поздравить\b', message.text.lower()):  # Проверка наличия команды "поздравить" в начале предложения
+        if len(message.text.split()) == 2 and message.text.split()[1].startswith("@"):  # Проверка формата "поздравить @user"
+            sender_username = message.from_user.username
+            target_username = message.text.split()[1][1:]  # Извлечение имени пользователя без @
+            bot.reply_to(message, f'🥳| @{sender_username} поздравил(а) @{target_username}')
+            return
+
+    if message.text.lower().startswith("поздравить") or message.text.lower().endswith("поздравить"):  # Проверка наличия команды "поздравить" в начале или в конце
+        if message.reply_to_message and message.reply_to_message.from_user.username:  # Проверка наличия ответа на сообщение
+            target_username = message.reply_to_message.from_user.username
+            if len(message.text.split()) > 1:
+                if "\n" in message.text:
+                    text = message.text.split("\n", 1)[1]
+                    bot.reply_to(message, f'🥳| @{message.from_user.username} поздравил(а) @{target_username}\n💬| С репликой: «{text}»')
+                else:
+                    bot.reply_to(message, f'🥳| @{message.from_user.username} поздравил(а) @{target_username}')
+            return
+
+        if len(message.text.split()) > 1:
+            target_username = message.text.split()[1]
+            if target_username.startswith("@"):
+                target_username = target_username[1:]
+                if target_username != message.from_user.username:
+                    text_index = 2
+                    if "\n" in message.text:
+                        text = message.text.split("\n", 1)[1]
+                        bot.reply_to(message,
+                                     f'🥳| @{message.from_user.username} поздравил(а) @{target_username}\n💬| С репликой: «{text}»')
+                    else:
+                        bot.reply_to(message,
+                                     f'🥳| @{message.from_user.username} поздравил(а) @{target_username}')
+
+
+
+
+@bot.message_handler(func=lambda message: re.search(r'^казнить\b', message.text.lower()))
+def scare(message):
+    if re.search(r'^казнить\b', message.text.lower()):  # Проверка наличия команды "казнить" в начале предложения
+        if len(message.text.split()) == 2 and message.text.split()[1].startswith("@"):  # Проверка формата "казнить @user"
+            sender_username = message.from_user.username
+            target_username = message.text.split()[1][1:]  # Извлечение имени пользователя без @
+            bot.reply_to(message, f'😵| @{sender_username} казнил(а) @{target_username}')
+            return
+
+    if message.text.lower().startswith("казнить") or message.text.lower().endswith("казнить"):  # Проверка наличия команды "казнить" в начале или в конце
+        if message.reply_to_message and message.reply_to_message.from_user.username:  # Проверка наличия ответа на сообщение
+            target_username = message.reply_to_message.from_user.username
+            if len(message.text.split()) > 1:
+                if "\n" in message.text:
+                    text = message.text.split("\n", 1)[1]
+                    bot.reply_to(message, f'😵| @{message.from_user.username} казнил(а) @{target_username}\n💬| С репликой: «{text}»')
+                else:
+                    bot.reply_to(message, f'😵| @{message.from_user.username} казнил(а) @{target_username}')
+            return
+
+        if len(message.text.split()) > 1:
+            target_username = message.text.split()[1]
+            if target_username.startswith("@"):
+                target_username = target_username[1:]
+                if target_username != message.from_user.username:
+                    text_index = 2
+                    if "\n" in message.text:
+                        text = message.text.split("\n", 1)[1]
+                        bot.reply_to(message,
+                                     f'😵| @{message.from_user.username} казнил(а) @{target_username}\n💬| С репликой: «{text}»')
+                    else:
+                        bot.reply_to(message,
+                                     f'😵| @{message.from_user.username} казнил(а) @{target_username}')
+
+
+
+
+
+import re
+
+@bot.message_handler(func=lambda message: re.search(r'^дать пять\b', message.text.lower()))
+def throw_axe(message):
+    if re.search(r'^дать пять\b', message.text.lower()):  # Проверка наличия команды "дать пять" в начале предложения
+        if len(message.text.split()) == 3 and message.text.split()[1].startswith("@"):  # Проверка формата "дать пять @user"
+            sender_username = message.from_user.username
+            target_username = message.text.split()[2][1:]  # Извлечение имени пользователя без @
+            bot.reply_to(message, f'🙏😁| @{sender_username} дал(а) пять братану @{target_username}')
+            return
+
+    if message.text.lower().startswith("дать пять") or message.text.lower().endswith("дать пять"):  # Проверка наличия команды "дать пять" в начале или в конце
+        if message.reply_to_message and message.reply_to_message.from_user.username:  # Проверка наличия ответа на сообщение
+            target_username = message.reply_to_message.from_user.username
+            if len(message.text.split()) > 1:
+                if "\n" in message.text:
+                    text = message.text.split("\n", 1)[1]
+                    bot.reply_to(message, f'🙏😁| @{message.from_user.username} дал(а) пять братану @{target_username}\n💬| С репликой: «{text}»')
+                else:
+                    bot.reply_to(message, f'🙏😁| @{message.from_user.username} дал(а) пять братану @{target_username}')
+            return
+
+        if len(message.text.split()) > 2:
+            target_username = message.text.split()[2]
+            if target_username.startswith("@"):
+                target_username = target_username[1:]
+                if target_username != message.from_user.username:
+                    text_index = 3
+                    if "\n" in message.text:
+                        text = message.text.split("\n", 1)[1]
+                        bot.reply_to(message,
+                                     f'🙏😁| @{message.from_user.username} дал(а) пять братану @{target_username}\n💬| С репликой: «{text}»')
+                    else:
+                        bot.reply_to(message,
+                                     f'🙏😁| @{message.from_user.username} дал(а) пять братану @{target_username}')
+
+
+
+import re
+
+@bot.message_handler(func=lambda message: re.search(r'^пожать руку\b', message.text.lower()))
+def throw_axe(message):
+    if re.search(r'^пожать руку\b', message.text.lower()):  # Проверка наличия команды "пожать руку" в начале предложения
+        if len(message.text.split()) == 3 and message.text.split()[1].startswith("@"):  # Проверка формата "пожать руку @user"
+            sender_username = message.from_user.username
+            target_username = message.text.split()[2][1:]  # Извлечение имени пользователя без @
+            bot.reply_to(message, f'🤝| @{sender_username} пожал(а) руку @{target_username}')
+            return
+
+    if message.text.lower().startswith("пожать руку") or message.text.lower().endswith("пожать руку"):  # Проверка наличия команды "пожать руку" в начале или в конце
+        if message.reply_to_message and message.reply_to_message.from_user.username:  # Проверка наличия ответа на сообщение
+            target_username = message.reply_to_message.from_user.username
+            if len(message.text.split()) > 1:
+                if "\n" in message.text:
+                    text = message.text.split("\n", 1)[1]
+                    bot.reply_to(message, f'🤝| @{message.from_user.username} пожал(а) руку @{target_username}\n💬| С репликой: «{text}»')
+                else:
+                    bot.reply_to(message, f'🤝| @{message.from_user.username} пожал(а) руку @{target_username}')
+            return
+
+        if len(message.text.split()) > 2:
+            target_username = message.text.split()[2]
+            if target_username.startswith("@"):
+                target_username = target_username[1:]
+                if target_username != message.from_user.username:
+                    text_index = 3
+                    if "\n" in message.text:
+                        text = message.text.split("\n", 1)[1]
+                        bot.reply_to(message,
+                                     f'🤝| @{message.from_user.username} пожал(а) руку @{target_username}\n💬| С репликой: «{text}»')
+                    else:
+                        bot.reply_to(message,
+                                     f'🤝| @{message.from_user.username} пожал(а) руку @{target_username}')
+
+
+
+@bot.message_handler(func=lambda message: re.search(r'^кастрировать\b', message.text.lower()))
+def scare(message):
+    if re.search(r'^кастрировать\b', message.text.lower()):  # Проверка наличия команды "кастрировать" в начале предложения
+        if len(message.text.split()) == 2 and message.text.split()[1].startswith("@"):  # Проверка формата "кастрировать @user"
+            sender_username = message.from_user.username
+            target_username = message.text.split()[1][1:]  # Извлечение имени пользователя без @
+            bot.reply_to(message, f'🤭✂️| @{sender_username} кастрировал(а) ножницами @{target_username}')
+            return
+
+    if message.text.lower().startswith("кастрировать") or message.text.lower().endswith("кастрировать"):  # Проверка наличия команды "кастрировать" в начале или в конце
+        if message.reply_to_message and message.reply_to_message.from_user.username:  # Проверка наличия ответа на сообщение
+            target_username = message.reply_to_message.from_user.username
+            if len(message.text.split()) > 1:
+                if "\n" in message.text:
+                    text = message.text.split("\n", 1)[1]
+                    bot.reply_to(message, f'🤭✂️| @{message.from_user.username} кастрировал(а) ножницами @{target_username}\n💬| С репликой: «{text}»')
+                else:
+                    bot.reply_to(message, f'🤭✂️| @{message.from_user.username} кастрировал(а) ножницами @{target_username}')
+            return
+
+        if len(message.text.split()) > 1:
+            target_username = message.text.split()[1]
+            if target_username.startswith("@"):
+                target_username = target_username[1:]
+                if target_username != message.from_user.username:
+                    text_index = 2
+                    if "\n" in message.text:
+                        text = message.text.split("\n", 1)[1]
+                        bot.reply_to(message,
+                                     f'🤭✂️| @{message.from_user.username} кастрировал(а) ножницами @{target_username}\n💬| С репликой: «{text}»')
+                    else:
+                        bot.reply_to(message,
+                                     f'🤭✂️| @{message.from_user.username} кастрировал(а) ножницами @{target_username}')
+
+
+
+
+
+import re
+
+@bot.message_handler(func=lambda message: re.search(r'^забрать интернет\b', message.text.lower()))
+def throw_axe(message):
+    if re.search(r'^забрать интернет\b', message.text.lower()):  # Проверка наличия команды "забрать интернет" в начале предложения
+        if len(message.text.split()) == 3 and message.text.split()[1].startswith("@"):  # Проверка формата "забрать интернет @user"
+            sender_username = message.from_user.username
+            target_username = message.text.split()[2][1:]  # Извлечение имени пользователя без @
+            bot.reply_to(message, f'🌐🖥| @{sender_username} забрал(а) интернет @{target_username}')
+            return
+
+    if message.text.lower().startswith("забрать интернет") or message.text.lower().endswith("забрать интернет"):  # Проверка наличия команды "забрать интернет" в начале или в конце
+        if message.reply_to_message and message.reply_to_message.from_user.username:  # Проверка наличия ответа на сообщение
+            target_username = message.reply_to_message.from_user.username
+            if len(message.text.split()) > 1:
+                if "\n" in message.text:
+                    text = message.text.split("\n", 1)[1]
+                    bot.reply_to(message, f'🌐🖥| @{message.from_user.username} забрал(а) интернет у @{target_username}\n💬| С репликой: «{text}»')
+                else:
+                    bot.reply_to(message, f'🌐🖥| @{message.from_user.username} забрал(а) интернет у @{target_username}')
+            return
+
+        if len(message.text.split()) > 2:
+            target_username = message.text.split()[2]
+            if target_username.startswith("@"):
+                target_username = target_username[1:]
+                if target_username != message.from_user.username:
+                    text_index = 3
+                    if "\n" in message.text:
+                        text = message.text.split("\n", 1)[1]
+                        bot.reply_to(message,
+                                     f'🌐🖥| @{message.from_user.username} забрал(а) интернет у @{target_username}\n💬| С репликой: «{text}»')
+                    else:
+                        bot.reply_to(message,
+                                     f'🌐🖥| @{message.from_user.username} забрал(а) интернет у @{target_username}')
+
+
+
+
+
+@bot.message_handler(func=lambda message: re.search(r'^развеселить\b', message.text.lower()))
+def scare(message):
+    if re.search(r'^развеселить\b', message.text.lower()):  # Проверка наличия команды "развеселить" в начале предложения
+        if len(message.text.split()) == 2 and message.text.split()[1].startswith("@"):  # Проверка формата "развеселить @user"
+            sender_username = message.from_user.username
+            target_username = message.text.split()[1][1:]  # Извлечение имени пользователя без @
+            bot.reply_to(message, f'😵| @{sender_username} развеселил(а) @{target_username}')
+            return
+
+    if message.text.lower().startswith("развеселить") or message.text.lower().endswith("развеселить"):  # Проверка наличия команды "развеселить" в начале или в конце
+        if message.reply_to_message and message.reply_to_message.from_user.username:  # Проверка наличия ответа на сообщение
+            target_username = message.reply_to_message.from_user.username
+            if len(message.text.split()) > 1:
+                if "\n" in message.text:
+                    text = message.text.split("\n", 1)[1]
+                    bot.reply_to(message, f'😆| @{message.from_user.username} развеселил(а) @{target_username}\n💬| С репликой: «{text}»')
+                else:
+                    bot.reply_to(message, f'😆| @{message.from_user.username} развеселил(а) @{target_username}')
+            return
+
+        if len(message.text.split()) > 1:
+            target_username = message.text.split()[1]
+            if target_username.startswith("@"):
+                target_username = target_username[1:]
+                if target_username != message.from_user.username:
+                    text_index = 2
+                    if "\n" in message.text:
+                        text = message.text.split("\n", 1)[1]
+                        bot.reply_to(message,
+                                     f'😆| @{message.from_user.username} развеселил(а) @{target_username}\n💬| С репликой: «{text}»')
+                    else:
+                        bot.reply_to(message,
+                                     f'😆| @{message.from_user.username} развеселил(а) @{target_username}')
+
+
+
+
+
+@bot.message_handler(func=lambda message: re.search(r'^подружиться\b', message.text.lower()))
+def scare(message):
+    if re.search(r'^подружиться\b', message.text.lower()):  # Проверка наличия команды "подружиться" в начале предложения
+        if len(message.text.split()) == 2 and message.text.split()[1].startswith("@"):  # Проверка формата "подружиться @user"
+            sender_username = message.from_user.username
+            target_username = message.text.split()[1][1:]  # Извлечение имени пользователя без @
+            bot.reply_to(message, f'🤗| @{sender_username} подружил(а)сь @{target_username}')
+            return
+
+    if message.text.lower().startswith("подружиться") or message.text.lower().endswith("подружиться"):  # Проверка наличия команды "подружиться" в начале или в конце
+        if message.reply_to_message and message.reply_to_message.from_user.username:  # Проверка наличия ответа на сообщение
+            target_username = message.reply_to_message.from_user.username
+            if len(message.text.split()) > 1:
+                if "\n" in message.text:
+                    text = message.text.split("\n", 1)[1]
+                    bot.reply_to(message, f'🤗| @{message.from_user.username} подружил(а)сь @{target_username}\n💬| С репликой: «{text}»')
+                else:
+                    bot.reply_to(message, f'🤗| @{message.from_user.username} подружил(а)сь @{target_username}')
+            return
+
+        if len(message.text.split()) > 1:
+            target_username = message.text.split()[1]
+            if target_username.startswith("@"):
+                target_username = target_username[1:]
+                if target_username != message.from_user.username:
+                    text_index = 2
+                    if "\n" in message.text:
+                        text = message.text.split("\n", 1)[1]
+                        bot.reply_to(message,
+                                     f'🤗| @{message.from_user.username} подружил(а)сь @{target_username}\n💬| С репликой: «{text}»')
+                    else:
+                        bot.reply_to(message,
+                                     f'🤗| @{message.from_user.username} подружил(а)сь @{target_username}')
+
+
+
+
+
+@bot.message_handler(func=lambda message: re.search(r'^помочь\b', message.text.lower()))
+def scare(message):
+    if re.search(r'^помочь\b', message.text.lower()):  # Проверка наличия команды "помочь" в начале предложения
+        if len(message.text.split()) == 2 and message.text.split()[1].startswith("@"):  # Проверка формата "помочь @user"
+            sender_username = message.from_user.username
+            target_username = message.text.split()[1][1:]  # Извлечение имени пользователя без @
+            bot.reply_to(message, f'😁| @{sender_username} помог(ла) @{target_username}')
+            return
+
+    if message.text.lower().startswith("помочь") or message.text.lower().endswith("помочь"):  # Проверка наличия команды "помочь" в начале или в конце
+        if message.reply_to_message and message.reply_to_message.from_user.username:  # Проверка наличия ответа на сообщение
+            target_username = message.reply_to_message.from_user.username
+            if len(message.text.split()) > 1:
+                if "\n" in message.text:
+                    text = message.text.split("\n", 1)[1]
+                    bot.reply_to(message, f'😁| @{message.from_user.username} помог(ла) @{target_username}\n💬| С репликой: «{text}»')
+                else:
+                    bot.reply_to(message, f'😁| @{message.from_user.username} помог(ла) @{target_username}')
+            return
+
+        if len(message.text.split()) > 1:
+            target_username = message.text.split()[1]
+            if target_username.startswith("@"):
+                target_username = target_username[1:]
+                if target_username != message.from_user.username:
+                    text_index = 2
+                    if "\n" in message.text:
+                        text = message.text.split("\n", 1)[1]
+                        bot.reply_to(message,
+                                     f'😁| @{message.from_user.username} помог(ла) @{target_username}\n💬| С репликой: «{text}»')
+                    else:
+                        bot.reply_to(message,
+                                     f'😁| @{message.from_user.username} помог(ла) @{target_username}')
+
+
+@bot.message_handler(func=lambda message: re.search(r'^простить\b', message.text.lower()))
+def scare(message):
+    if re.search(r'^простить\b', message.text.lower()):  # Проверка наличия команды "простить" в начале предложения
+        if len(message.text.split()) == 2 and message.text.split()[1].startswith("@"):  # Проверка формата "простить @user"
+            sender_username = message.from_user.username
+            target_username = message.text.split()[1][1:]  # Извлечение имени пользователя без @
+            bot.reply_to(message, f'😮‍💨| @{sender_username} простил(а) @{target_username}')
+            return
+
+    if message.text.lower().startswith("простить") or message.text.lower().endswith("простить"):  # Проверка наличия команды "простить" в начале или в конце
+        if message.reply_to_message and message.reply_to_message.from_user.username:  # Проверка наличия ответа на сообщение
+            target_username = message.reply_to_message.from_user.username
+            if len(message.text.split()) > 1:
+                if "\n" in message.text:
+                    text = message.text.split("\n", 1)[1]
+                    bot.reply_to(message, f'😮‍💨| @{message.from_user.username} простил(а) @{target_username}\n💬| С репликой: «{text}»')
+                else:
+                    bot.reply_to(message, f'😮‍💨| @{message.from_user.username} простил(а) @{target_username}')
+            return
+
+        if len(message.text.split()) > 1:
+            target_username = message.text.split()[1]
+            if target_username.startswith("@"):
+                target_username = target_username[1:]
+                if target_username != message.from_user.username:
+                    text_index = 2
+                    if "\n" in message.text:
+                        text = message.text.split("\n", 1)[1]
+                        bot.reply_to(message,
+                                     f'😮‍💨| @{message.from_user.username} простил(а) @{target_username}\n💬| С репликой: «{text}»')
+                    else:
+                        bot.reply_to(message,
+                                     f'😮‍💨| @{message.from_user.username} простил(а) @{target_username}')
+
+
+
+
+
+
+
+@bot.message_handler(func=lambda message: re.search(r'^обидеться\b', message.text.lower()))
+def scare(message):
+    if re.search(r'^обидеться\b', message.text.lower()):  # Проверка наличия команды "простить" в начале предложения
+        if len(message.text.split()) == 2 and message.text.split()[1].startswith("@"):  # Проверка формата "простить @user"
+            sender_username = message.from_user.username
+            target_username = message.text.split()[1][1:]  # Извлечение имени пользователя без @
+            bot.reply_to(message, f'🙄| @{sender_username} обидел(а)сь @{target_username}')
+            return
+
+    if message.text.lower().startswith("обидеться") or message.text.lower().endswith("обидеться"):  # Проверка наличия команды "простить" в начале или в конце
+        if message.reply_to_message and message.reply_to_message.from_user.username:  # Проверка наличия ответа на сообщение
+            target_username = message.reply_to_message.from_user.username
+            if len(message.text.split()) > 1:
+                if "\n" in message.text:
+                    text = message.text.split("\n", 1)[1]
+                    bot.reply_to(message, f'🙄| @{message.from_user.username} обидел(а)сь на @{target_username}\n💬| С репликой: «{text}»')
+                else:
+                    bot.reply_to(message, f'🙄| @{message.from_user.username} обидел(а)сь на @{target_username}')
+            return
+
+        if len(message.text.split()) > 1:
+            target_username = message.text.split()[1]
+            if target_username.startswith("@"):
+                target_username = target_username[1:]
+                if target_username != message.from_user.username:
+                    text_index = 2
+                    if "\n" in message.text:
+                        text = message.text.split("\n", 1)[1]
+                        bot.reply_to(message,
+                                     f'🙄| @{message.from_user.username} обидел(а)сь на @{target_username}\n💬| С репликой: «{text}»')
+                    else:
+                        bot.reply_to(message,
+                                     f'🙄| @{message.from_user.username} обидел(а)сь на @{target_username}')
+
+
+
+
+
+
+
+@bot.message_handler(func=lambda message: re.search(r'^выебать\b', message.text.lower()))
+def scare(message):
+    if re.search(r'^выебать\b', message.text.lower()):  # Проверка наличия команды "простить" в начале предложения
+        if len(message.text.split()) == 2 and message.text.split()[1].startswith("@"):  # Проверка формата "простить @user"
+            sender_username = message.from_user.username
+            target_username = message.text.split()[1][1:]  # Извлечение имени пользователя без @
+            bot.reply_to(message, f'🔞🍑🍌| @{sender_username} выебал(а) @{target_username}')
+            return
+
+    if message.text.lower().startswith("выебать") or message.text.lower().endswith("выебать"):  # Проверка наличия команды "простить" в начале или в конце
+        if message.reply_to_message and message.reply_to_message.from_user.username:  # Проверка наличия ответа на сообщение
+            target_username = message.reply_to_message.from_user.username
+            if len(message.text.split()) > 1:
+                if "\n" in message.text:
+                    text = message.text.split("\n", 1)[1]
+                    bot.reply_to(message, f'🔞🍑🍌| @{message.from_user.username} выебал(а) @{target_username}\n💬| С репликой: «{text}»')
+                else:
+                    bot.reply_to(message, f'🔞🍑🍌| @{message.from_user.username} выебал(а) @{target_username}')
+            return
+
+        if len(message.text.split()) > 1:
+            target_username = message.text.split()[1]
+            if target_username.startswith("@"):
+                target_username = target_username[1:]
+                if target_username != message.from_user.username:
+                    text_index = 2
+                    if "\n" in message.text:
+                        text = message.text.split("\n", 1)[1]
+                        bot.reply_to(message,
+                                     f'🔞🍑🍌| @{message.from_user.username} выебал(а) @{target_username}\n💬| С репликой: «{text}»')
+                    else:
+                        bot.reply_to(message,
+                                     f'🔞🍑🍌| @{message.from_user.username} выебал(а) @{target_username}')
+
+
+
+
+
+@bot.message_handler(func=lambda message: re.search(r'^пиздануть\b', message.text.lower()))
+def scare(message):
+    if re.search(r'^пиздануть\b', message.text.lower()):  # Проверка наличия команды "простить" в начале предложения
+        if len(message.text.split()) == 2 and message.text.split()[1].startswith("@"):  # Проверка формата "простить @user"
+            sender_username = message.from_user.username
+            target_username = message.text.split()[1][1:]  # Извлечение имени пользователя без @
+            bot.reply_to(message, f'😈😘| @{sender_username} пизданул(а) @{target_username}')
+            return
+
+    if message.text.lower().startswith("пиздануть") or message.text.lower().endswith("пиздануть"):  # Проверка наличия команды "простить" в начале или в конце
+        if message.reply_to_message and message.reply_to_message.from_user.username:  # Проверка наличия ответа на сообщение
+            target_username = message.reply_to_message.from_user.username
+            if len(message.text.split()) > 1:
+                if "\n" in message.text:
+                    text = message.text.split("\n", 1)[1]
+                    bot.reply_to(message, f'😈😘| @{message.from_user.username} пизданул(а) @{target_username}\n💬| С репликой: «{text}»')
+                else:
+                    bot.reply_to(message, f'😈😘| @{message.from_user.username} пизданул(а) @{target_username}')
+            return
+
+        if len(message.text.split()) > 1:
+            target_username = message.text.split()[1]
+            if target_username.startswith("@"):
+                target_username = target_username[1:]
+                if target_username != message.from_user.username:
+                    text_index = 2
+                    if "\n" in message.text:
+                        text = message.text.split("\n", 1)[1]
+                        bot.reply_to(message,
+                                     f'😈😘| @{message.from_user.username} пизданул(а) @{target_username}\n💬| С репликой: «{text}»')
+                    else:
+                        bot.reply_to(message,
+                                     f'😈😘| @{message.from_user.username} пизданул(а) @{target_username}')
+
+
+
+
+@bot.message_handler(func=lambda message: re.search(r'^укусить\b', message.text.lower()))
+def scare(message):
+    if re.search(r'^укусить\b', message.text.lower()):  # Проверка наличия команды "укусить" в начале предложения
+        if len(message.text.split()) == 2 and message.text.split()[1].startswith("@"):  # Проверка формата "укусить @user"
+            sender_username = message.from_user.username
+            target_username = message.text.split()[1][1:]  # Извлечение имени пользователя без @
+            bot.reply_to(message, f'😬🦷| @{sender_username} укусил(а) @{target_username}')
+            return
+
+    if message.text.lower().startswith("укусить") or message.text.lower().endswith("укусить"):  # Проверка наличия команды "укусить" в начале или в конце
+        if message.reply_to_message and message.reply_to_message.from_user.username:  # Проверка наличия ответа на сообщение
+            target_username = message.reply_to_message.from_user.username
+            if len(message.text.split()) > 1:
+                if "\n" in message.text:
+                    text = message.text.split("\n", 1)[1]
+                    bot.reply_to(message, f'😬🦷| @{message.from_user.username} укусил(а) @{target_username}\n💬| С репликой: «{text}»')
+                else:
+                    bot.reply_to(message, f'😬🦷| @{message.from_user.username} укусил(а) @{target_username}')
+            return
+
+        if len(message.text.split()) > 1:
+            target_username = message.text.split()[1]
+            if target_username.startswith("@"):
+                target_username = target_username[1:]
+                if target_username != message.from_user.username:
+                    text_index = 2
+                    if "\n" in message.text:
+                        text = message.text.split("\n", 1)[1]
+                        bot.reply_to(message,
+                                     f'😬🦷| @{message.from_user.username} укусил(а) @{target_username}\n💬| С репликой: «{text}»')
+                    else:
+                        bot.reply_to(message,
+                                     f'😬🦷| @{message.from_user.username} укусил(а) @{target_username}')
+
+
+
+
+
+
+
+
+
+@bot.message_handler(func=lambda message: re.search(r'^ебнуть\b', message.text.lower()))
+def scare(message):
+    if re.search(r'^ебнуть\b', message.text.lower()):  # Проверка наличия команды "укусить" в начале предложения
+        if len(message.text.split()) == 2 and message.text.split()[1].startswith("@"):  # Проверка формата "укусить @user"
+            sender_username = message.from_user.username
+            target_username = message.text.split()[1][1:]  # Извлечение имени пользователя без @
+            bot.reply_to(message, f'😠😡| @{sender_username} ебнул(а) @{target_username}')
+            return
+
+    if message.text.lower().startswith("ебнуть") or message.text.lower().endswith("ебнуть"):  # Проверка наличия команды "укусить" в начале или в конце
+        if message.reply_to_message and message.reply_to_message.from_user.username:  # Проверка наличия ответа на сообщение
+            target_username = message.reply_to_message.from_user.username
+            if len(message.text.split()) > 1:
+                if "\n" in message.text:
+                    text = message.text.split("\n", 1)[1]
+                    bot.reply_to(message, f'😠😡| @{message.from_user.username} ебнул(а) @{target_username}\n💬| С репликой: «{text}»')
+                else:
+                    bot.reply_to(message, f'😠😡| @{message.from_user.username} ебнул(а) @{target_username}')
+            return
+
+        if len(message.text.split()) > 1:
+            target_username = message.text.split()[1]
+            if target_username.startswith("@"):
+                target_username = target_username[1:]
+                if target_username != message.from_user.username:
+                    text_index = 2
+                    if "\n" in message.text:
+                        text = message.text.split("\n", 1)[1]
+                        bot.reply_to(message,
+                                     f'😠😡| @{message.from_user.username} ебнул(а) @{target_username}\n💬| С репликой: «{text}»')
+                    else:
+                        bot.reply_to(message,
+                                     f'😠😡| @{message.from_user.username} ебнул(а) @{target_username}')
+
+
+
+
+
+
+
+@bot.message_handler(func=lambda message: re.search(r'^лизнуть\b', message.text.lower()))
+def scare(message):
+    if re.search(r'^лизнуть\b', message.text.lower()):  # Проверка наличия команды "лизнуть" в начале предложения
+        if len(message.text.split()) == 2 and message.text.split()[1].startswith("@"):  # Проверка формата "лизнуть @user"
+            sender_username = message.from_user.username
+            target_username = message.text.split()[1][1:]  # Извлечение имени пользователя без @
+            bot.reply_to(message, f'😝😚👅| @{sender_username} лизнул(а) шею @{target_username}')
+            return
+
+    if message.text.lower().startswith("лизнуть") or message.text.lower().endswith("лизнуть"):  # Проверка наличия команды "лизнуть" в начале или в конце
+        if message.reply_to_message and message.reply_to_message.from_user.username:  # Проверка наличия ответа на сообщение
+            target_username = message.reply_to_message.from_user.username
+            if len(message.text.split()) > 1:
+                if "\n" in message.text:
+                    text = message.text.split("\n", 1)[1]
+                    bot.reply_to(message, f'😝😚👅| @{message.from_user.username} лизнул(а) шею @{target_username}\n💬| С репликой: «{text}»')
+                else:
+                    bot.reply_to(message, f'😝😚👅| @{message.from_user.username} лизнул(а) шею @{target_username}')
+            return
+
+        if len(message.text.split()) > 1:
+            target_username = message.text.split()[1]
+            if target_username.startswith("@"):
+                target_username = target_username[1:]
+                if target_username != message.from_user.username:
+                    text_index = 2
+                    if "\n" in message.text:
+                        text = message.text.split("\n", 1)[1]
+                        bot.reply_to(message,
+                                     f'😝😚👅| @{message.from_user.username} лизнул(а) шею @{target_username}\n💬| С репликой: «{text}»')
+                    else:
+                        bot.reply_to(message,
+                                     f'😝😚👅| @{message.from_user.username} лизнул(а) шею @{target_username}')
+
+
+
+
+
+
+
+@bot.message_handler(func=lambda message: re.search(r'^уебать\b', message.text.lower()))
+def scare(message):
+    if re.search(r'^уебать\b', message.text.lower()):  # Проверка наличия команды "укусить" в начале предложения
+        if len(message.text.split()) == 2 and message.text.split()[1].startswith("@"):  # Проверка формата "укусить @user"
+            sender_username = message.from_user.username
+            target_username = message.text.split()[1][1:]  # Извлечение имени пользователя без @
+            bot.reply_to(message, f'😵🥊| @{sender_username} уебал(а) @{target_username}')
+            return
+
+    if message.text.lower().startswith("уебать") or message.text.lower().endswith("уебать"):  # Проверка наличия команды "укусить" в начале или в конце
+        if message.reply_to_message and message.reply_to_message.from_user.username:  # Проверка наличия ответа на сообщение
+            target_username = message.reply_to_message.from_user.username
+            if len(message.text.split()) > 1:
+                if "\n" in message.text:
+                    text = message.text.split("\n", 1)[1]
+                    bot.reply_to(message, f'😵🥊| @{message.from_user.username} уебал(а) @{target_username}\n💬| С репликой: «{text}»')
+                else:
+                    bot.reply_to(message, f'😵🥊| @{message.from_user.username} уебал(а) @{target_username}')
+            return
+
+        if len(message.text.split()) > 1:
+            target_username = message.text.split()[1]
+            if target_username.startswith("@"):
+                target_username = target_username[1:]
+                if target_username != message.from_user.username:
+                    text_index = 2
+                    if "\n" in message.text:
+                        text = message.text.split("\n", 1)[1]
+                        bot.reply_to(message,
+                                     f'😵🥊| @{message.from_user.username} уебал(а) @{target_username}\n💬| С репликой: «{text}»')
+                    else:
+                        bot.reply_to(message,
+                                     f'😵🥊| @{message.from_user.username} уебал(а) @{target_username}')
+
+
+
+@bot.message_handler(func=lambda message: re.search(r'^умолять\b', message.text.lower()))
+def scare(message):
+    if re.search(r'^умолять\b', message.text.lower()):  # Проверка наличия команды "умолять" в начале предложения
+        if len(message.text.split()) == 2 and message.text.split()[1].startswith("@"):  # Проверка формата "умолять @user"
+            sender_username = message.from_user.username
+            target_username = message.text.split()[1][1:]  # Извлечение имени пользователя без @
+            bot.reply_to(message, f'🫠| @{sender_username} умолял(а) на коленях @{target_username}')
+            return
+
+    if message.text.lower().startswith("умолять") or message.text.lower().endswith("умолять"):  # Проверка наличия команды "умолять" в начале или в конце
+        if message.reply_to_message and message.reply_to_message.from_user.username:  # Проверка наличия ответа на сообщение
+            target_username = message.reply_to_message.from_user.username
+            if len(message.text.split()) > 1:
+                if "\n" in message.text:
+                    text = message.text.split("\n", 1)[1]
+                    bot.reply_to(message, f'🫠| @{message.from_user.username} умолял(а) на коленях @{target_username}\n💬| С репликой: «{text}»')
+                else:
+                    bot.reply_to(message, f'🫠| @{message.from_user.username} умолял(а) на коленях @{target_username}')
+            return
+
+        if len(message.text.split()) > 1:
+            target_username = message.text.split()[1]
+            if target_username.startswith("@"):
+                target_username = target_username[1:]
+                if target_username != message.from_user.username:
+                    text_index = 2
+                    if "\n" in message.text:
+                        text = message.text.split("\n", 1)[1]
+                        bot.reply_to(message,
+                                     f'🫠| @{message.from_user.username} умолял(а) на коленях @{target_username}\n💬| С репликой: «{text}»')
+                    else:
+                        bot.reply_to(message,
+                                     f'🫠| @{message.from_user.username} умолял(а) на коленях @{target_username}')
+
+
+
+
+
+@bot.message_handler(func=lambda message: re.search(r'^усыпить\b', message.text.lower()))
+def scare(message):
+    if re.search(r'^усыпить\b', message.text.lower()):  # Проверка наличия команды "усыпить" в начале предложения
+        if len(message.text.split()) == 2 and message.text.split()[1].startswith("@"):  # Проверка формата "усыпить @user"
+            sender_username = message.from_user.username
+            target_username = message.text.split()[1][1:]  # Извлечение имени пользователя без @
+            bot.reply_to(message, f'🫨| @{sender_username} усыпил(а) @{target_username}')
+            return
+
+    if message.text.lower().startswith("усыпить") or message.text.lower().endswith("усыпить"):  # Проверка наличия команды "усыпить" в начале или в конце
+        if message.reply_to_message and message.reply_to_message.from_user.username:  # Проверка наличия ответа на сообщение
+            target_username = message.reply_to_message.from_user.username
+            if len(message.text.split()) > 1:
+                if "\n" in message.text:
+                    text = message.text.split("\n", 1)[1]
+                    bot.reply_to(message, f'🫨| @{message.from_user.username} усыпил(а) @{target_username}\n💬| С репликой: «{text}»')
+                else:
+                    bot.reply_to(message, f'🫨| @{message.from_user.username} усыпил(а) @{target_username}')
+            return
+
+        if len(message.text.split()) > 1:
+            target_username = message.text.split()[1]
+            if target_username.startswith("@"):
+                target_username = target_username[1:]
+                if target_username != message.from_user.username:
+                    text_index = 2
+                    if "\n" in message.text:
+                        text = message.text.split("\n", 1)[1]
+                        bot.reply_to(message,
+                                     f'🫨| @{message.from_user.username} усыпил(а) @{target_username}\n💬| С репликой: «{text}»')
+                    else:
+                        bot.reply_to(message,
+                                     f'🫨| @{message.from_user.username} усыпил(а) @{target_username}')
+
+
+
+
+
+
+
+@bot.message_handler(func=lambda message: re.search(r'^выебать\b', message.text.lower()))
+def scare(message):
+    if re.search(r'^выебать\b', message.text.lower()):  # Проверка наличия команды "усыпить" в начале предложения
+        if len(message.text.split()) == 2 and message.text.split()[1].startswith("@"):  # Проверка формата "усыпить @user"
+            sender_username = message.from_user.username
+            target_username = message.text.split()[1][1:]  # Извлечение имени пользователя без @
+            bot.reply_to(message, f'🤪🥊| @{sender_username} вьебал(а) @{target_username}')
+            return
+
+    if message.text.lower().startswith("выебать") or message.text.lower().endswith("выебать"):  # Проверка наличия команды "усыпить" в начале или в конце
+        if message.reply_to_message and message.reply_to_message.from_user.username:  # Проверка наличия ответа на сообщение
+            target_username = message.reply_to_message.from_user.username
+            if len(message.text.split()) > 1:
+                if "\n" in message.text:
+                    text = message.text.split("\n", 1)[1]
+                    bot.reply_to(message, f'🤪🥊| @{message.from_user.username} вьебал(а) @{target_username}\n💬| С репликой: «{text}»')
+                else:
+                    bot.reply_to(message, f'🤪🥊| @{message.from_user.username} вьебал(а) @{target_username}')
+            return
+
+        if len(message.text.split()) > 1:
+            target_username = message.text.split()[1]
+            if target_username.startswith("@"):
+                target_username = target_username[1:]
+                if target_username != message.from_user.username:
+                    text_index = 2
+                    if "\n" in message.text:
+                        text = message.text.split("\n", 1)[1]
+                        bot.reply_to(message,
+                                     f'🤪🥊| @{message.from_user.username} вьебал(а) @{target_username}\n💬| С репликой: «{text}»')
+                    else:
+                        bot.reply_to(message,
+                                     f'🤪🥊| @{message.from_user.username} вьебал(а) @{target_username}')
+
+
+
+@bot.message_handler(func=lambda message: re.search(r'^отравить\b', message.text.lower()))
+def scare(message):
+    if re.search(r'^отравить\b', message.text.lower()):  # Проверка наличия команды "усыпить" в начале предложения
+        if len(message.text.split()) == 2 and message.text.split()[1].startswith("@"):  # Проверка формата "усыпить @user"
+            sender_username = message.from_user.username
+            target_username = message.text.split()[1][1:]  # Извлечение имени пользователя без @
+            bot.reply_to(message, f'🤢🧪| @{sender_username} отравил(а) @{target_username}')
+            return
+
+    if message.text.lower().startswith("отравить") or message.text.lower().endswith("отравить"):  # Проверка наличия команды "усыпить" в начале или в конце
+        if message.reply_to_message and message.reply_to_message.from_user.username:  # Проверка наличия ответа на сообщение
+            target_username = message.reply_to_message.from_user.username
+            if len(message.text.split()) > 1:
+                if "\n" in message.text:
+                    text = message.text.split("\n", 1)[1]
+                    bot.reply_to(message, f'🤢🧪| @{message.from_user.username} отравил(а) @{target_username}\n💬| С репликой: «{text}»')
+                else:
+                    bot.reply_to(message, f'🤢🧪| @{message.from_user.username} отравил(а) @{target_username}')
+            return
+
+        if len(message.text.split()) > 1:
+            target_username = message.text.split()[1]
+            if target_username.startswith("@"):
+                target_username = target_username[1:]
+                if target_username != message.from_user.username:
+                    text_index = 2
+                    if "\n" in message.text:
+                        text = message.text.split("\n", 1)[1]
+                        bot.reply_to(message,
+                                     f'🤢🧪| @{message.from_user.username} отравил(а) @{target_username}\n💬| С репликой: «{text}»')
+                    else:
+                        bot.reply_to(message,
+                                     f'🤢🧪| @{message.from_user.username} отравил(а) @{target_username}')
+
+
+
+@bot.message_handler(func=lambda message: re.search(r'^утопить\b', message.text.lower()))
+def scare(message):
+    if re.search(r'^утопить\b', message.text.lower()):  # Проверка наличия команды "усыпить" в начале предложения
+        if len(message.text.split()) == 2 and message.text.split()[1].startswith("@"):  # Проверка формата "усыпить @user"
+            sender_username = message.from_user.username
+            target_username = message.text.split()[1][1:]  # Извлечение имени пользователя без @
+            bot.reply_to(message, f'💧💦| @{sender_username} утопил(а) @{target_username}')
+            return
+
+    if message.text.lower().startswith("утопить") or message.text.lower().endswith("утопить"):  # Проверка наличия команды "усыпить" в начале или в конце
+        if message.reply_to_message and message.reply_to_message.from_user.username:  # Проверка наличия ответа на сообщение
+            target_username = message.reply_to_message.from_user.username
+            if len(message.text.split()) > 1:
+                if "\n" in message.text:
+                    text = message.text.split("\n", 1)[1]
+                    bot.reply_to(message, f'💧💦| @{message.from_user.username} утопил(а) @{target_username}\n💬| С репликой: «{text}»')
+                else:
+                    bot.reply_to(message, f'💧💦| @{message.from_user.username} утопил(а) @{target_username}')
+            return
+
+        if len(message.text.split()) > 1:
+            target_username = message.text.split()[1]
+            if target_username.startswith("@"):
+                target_username = target_username[1:]
+                if target_username != message.from_user.username:
+                    text_index = 2
+                    if "\n" in message.text:
+                        text = message.text.split("\n", 1)[1]
+                        bot.reply_to(message,
+                                     f'💧💦| @{message.from_user.username} утопил(а) @{target_username}\n💬| С репликой: «{text}»')
+                    else:
+                        bot.reply_to(message,
+                                     f'💧💦| @{message.from_user.username} утопил(а) @{target_username}')
+
+
+
+
+
+@bot.message_handler(func=lambda message: re.search(r'^расстрелять\b', message.text.lower()))
+def scare(message):
+    if re.search(r'^расстрелять\b', message.text.lower()):  # Проверка наличия команды "усыпить" в начале предложения
+        if len(message.text.split()) == 2 and message.text.split()[1].startswith("@"):  # Проверка формата "усыпить @user"
+            sender_username = message.from_user.username
+            target_username = message.text.split()[1][1:]  # Извлечение имени пользователя без @
+            bot.reply_to(message, f'🤓🔫| @{sender_username} расстрелял(а) @{target_username}')
+            return
+
+    if message.text.lower().startswith("расстрелять") or message.text.lower().endswith("расстрелять"):  # Проверка наличия команды "усыпить" в начале или в конце
+        if message.reply_to_message and message.reply_to_message.from_user.username:  # Проверка наличия ответа на сообщение
+            target_username = message.reply_to_message.from_user.username
+            if len(message.text.split()) > 1:
+                if "\n" in message.text:
+                    text = message.text.split("\n", 1)[1]
+                    bot.reply_to(message, f'🤓🔫| @{message.from_user.username} расстрелял(а) @{target_username}\n💬| С репликой: «{text}»')
+                else:
+                    bot.reply_to(message, f'🤓🔫| @{message.from_user.username} расстрелял(а) @{target_username}')
+            return
+
+        if len(message.text.split()) > 1:
+            target_username = message.text.split()[1]
+            if target_username.startswith("@"):
+                target_username = target_username[1:]
+                if target_username != message.from_user.username:
+                    text_index = 2
+                    if "\n" in message.text:
+                        text = message.text.split("\n", 1)[1]
+                        bot.reply_to(message,
+                                     f'🤓🔫| @{message.from_user.username} расстрелял(а) @{target_username}\n💬| С репликой: «{text}»')
+                    else:
+                        bot.reply_to(message,
+                                     f'🤓🔫| @{message.from_user.username} расстрелял(а) @{target_username}')
+
+
+
+
+
+
+
+@bot.message_handler(func=lambda message: re.search(r'^довести до слез\b', message.text.lower()))
+def drown_in_toilet(message):
+    if re.search(r'^довести до слез\b', message.text.lower()):  # Проверка наличия команды "утопить в унитазе" в начале предложения
+        if len(message.text.split()) == 4 and message.text.split()[2].startswith("@"):  # Проверка формата "утопить в унитазе @user"
+            sender_username = message.from_user.username
+            target_username = message.text.split()[3][1:]  # Извлечение имени пользователя без @
+            bot.reply_to(message, f'😭😭| @{sender_username} довел до слез @{target_username} она бежала и плакала на всю Ивановскую')
+            return
+
+    if message.text.lower().startswith("довести до слез") or message.text.lower().endswith("довести до слез"):  # Проверка наличия команды "утопить в унитазе" в начале или в конце
+        if message.reply_to_message and message.reply_to_message.from_user.username:  # Проверка наличия ответа на сообщение
+            target_username = message.reply_to_message.from_user.username
+            if len(message.text.split()) > 1:
+                if "\n" in message.text:
+                    text = message.text.split("\n", 1)[1]
+                    bot.reply_to(message, f'😭😭| @{message.from_user.username} довел до слез @{target_username} она бежала и плакала на всю Ивановскую \n💬| С репликой: «{text}»')
+                else:
+                    bot.reply_to(message, f'😭😭| @{message.from_user.username} довел до слез @{target_username} она бежала и плакала на всю Ивановскую')
+            return
+
+        if len(message.text.split()) > 3:
+            target_username = message.text.split()[3]
+            if target_username.startswith("@"):
+                target_username = target_username[1:]
+                if target_username != message.from_user.username:
+                    text_index = 3
+                    if "\n" in message.text:
+                        text = message.text.split("\n", 1)[1]
+                        bot.reply_to(message,
+                                     f'😭😭| @{message.from_user.username} довел до слез @{target_username} она бежала и плакала на всю Ивановскую \n💬| С репликой: «{text}»')
+                    else:
+                        bot.reply_to(message,
+                                     f'😭😭| @{message.from_user.username} довел до слез @{target_username} она бежала и плакала на всю Ивановскую')
+
+
+
+
+
+
+
+while True:
+    try:
+        bot.polling(none_stop=True)
+    except Exception as e:
+        print(e)
+        time.sleep(5)
